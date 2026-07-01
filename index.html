@@ -6,8 +6,8 @@
   <title>SILARAS – Sistem Informasi Laporan dan Respons Konflik Satwa</title>
   
   <!-- Favicon SILARAS -->
-  <link rel="icon" type="image/png" href="7.png" />
-  <link rel="shortcut icon" type="image/png" href="7.png" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" />
+  <link rel="shortcut icon" type="image/png" href="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -94,23 +94,38 @@
     .dark body {
       background-color: #0e1716;
     }
+
+    /* Animasi Judul Glow & Denyut */
+    @keyframes titleGlow {
+      0%, 100% {
+        text-shadow: 0 0 4px rgba(70, 157, 146, 0.2), 0 0 10px rgba(70, 157, 146, 0.1);
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 16px rgba(70, 157, 146, 0.6), 0 0 28px rgba(70, 157, 146, 0.4);
+        transform: scale(1.02);
+      }
+    }
+    .glowing-pulsing-title {
+      animation: titleGlow 3s infinite ease-in-out;
+      display: inline-block;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 font-sans flex flex-col">
 
-  <!-- CONFIG: URL GAS WEB APP -->
+  <!-- CONFIG: URL GAS WEB APP (Tempel tautan Apps Script setelah di-deploy ke sini) -->
   <script>
-    const GAS_WEB_APP_URL = ""; 
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz06FmuQVuI3h4b2b-IUURahH5CHkFs-ahyjoDcUMASOgY56BPAZ34Luj9JLd5zprAK/exec"; 
   </script>
 
-  <!-- OVERLAY LOADING DENGAN EMBLEM LOGO BEKERJA -->
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none opacity-0">
     <div class="bg-white dark:bg-slate-800 p-8 rounded-[32px] shadow-2xl flex flex-col items-center border border-slate-100 dark:border-slate-700/50 max-w-xs text-center">
       <div class="relative mb-4 flex items-center justify-center">
         <!-- Spinner Ring -->
         <div class="animate-spin rounded-full h-16 w-16 border-4 border-emerald-600 border-t-transparent"></div>
         <!-- Logo Emblem di Tengah -->
-        <img src="7.png" alt="SILARAS Logo" class="absolute w-10 h-10 object-contain rounded-full">
+        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo" class="absolute w-10 h-10 object-contain rounded-full">
       </div>
       <p class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest" id="loadingText">Sedang Memproses...</p>
     </div>
@@ -119,13 +134,13 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer" class="fixed top-24 right-5 z-50 flex flex-col gap-2 max-w-sm w-full"></div>
 
-  <!-- HEADER NAVIGATION (PREMIUM GLASS LAYOUT) -->
   <header class="glass-nav border-b border-slate-100 dark:border-slate-800/80 sticky top-0 z-40 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
-      <!-- SILARAS Logo Branding -->
-      <div class="flex items-center cursor-pointer py-1" onclick="switchTab('beranda')">
-        <img src="6.png" alt="SILARAS Logo" class="h-11 md:h-14 object-contain transition-transform hover:scale-[1.02] duration-200 dark:brightness-110">
+      <!-- SILARAS Logo Branding & Animated Title -->
+      <div class="flex items-center gap-3 cursor-pointer py-1" onclick="switchTab('beranda')">
+        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo" class="h-11 md:h-12 object-contain transition-transform hover:scale-[1.02] duration-200 dark:brightness-110">
+        <h1 class="text-lg md:text-xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 glowing-pulsing-title uppercase">SILARAS</h1>
       </div>
 
       <!-- Desktop Premium Menu Links -->
@@ -171,12 +186,11 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
   <div id="mobileMenu" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 hidden transition-all">
     <div class="bg-white dark:bg-slate-900 w-80 h-full p-6 flex flex-col shadow-2xl transition-transform duration-300 transform translate-x-0">
       <div class="flex items-center justify-between border-b pb-4 mb-6 border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-3">
-          <img src="7.png" alt="SILARAS Emblem" class="w-9 h-9 object-contain">
+          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-9 h-9 object-contain">
           <h1 class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400">SILARAS</h1>
         </div>
         <button onclick="toggleMobileMenu()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -225,13 +239,11 @@
     </div>
   </div>
 
-  <!-- AREA UTAMA ISI KONTEN (TAB DRIVEN LAYOUT) -->
   <main class="flex-1 w-full">
 
-    <!-- ==================== TAB 0: BERANDA (PREMIUM LANDING PAGE) ==================== -->
+    <!-- ==================== TAB 0: BERANDA ==================== -->
     <section id="tab-beranda" class="transition-all duration-300">
       
-      <!-- HERO BANNER SECTION -->
       <section class="relative bg-gradient-to-b from-emerald-950 via-emerald-900 to-slate-900 text-white py-16 md:py-24 overflow-hidden border-b border-emerald-800/20">
         <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -257,7 +269,6 @@
             </div>
           </div>
 
-          <!-- Illustrative Card / Preview -->
           <div class="lg:col-span-5 relative">
             <div class="absolute -inset-1 rounded-[32px] bg-gradient-to-r from-emerald-600 to-teal-600 opacity-20 blur-lg"></div>
             <div class="relative bg-slate-900/90 border border-slate-800 p-6 rounded-[32px] shadow-2xl space-y-4">
@@ -265,7 +276,7 @@
                 <div class="flex items-center gap-2 text-xs font-bold text-emerald-400">
                   <i class="fa-solid fa-circle-nodes animate-pulse"></i> AKTIVITAS LIVE SILARAS
                 </div>
-                <span class="text-[9px] uppercase font-bold text-slate-500" id="liveTimeText">Selasa, 30 Juni 2026</span>
+                <span class="text-[9px] uppercase font-bold text-slate-500" id="liveTimeText">Memuat Hari & Jam...</span>
               </div>
               
               <!-- Quick Mini-Map / Stats -->
@@ -295,7 +306,7 @@
 
               <!-- Quick Instruction Card -->
               <div class="p-3 bg-emerald-950/20 rounded-xl border border-emerald-900/40 text-[10px] text-emerald-300/90 flex gap-2.5 items-start">
-                <img src="7.png" alt="SILARAS Badge" class="w-5 h-5 object-contain mt-0.5 shrink-0">
+                <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Badge" class="w-5 h-5 object-contain mt-0.5 shrink-0">
                 <p><b>Catatan SILARAS:</b> Gunakan deteksi GPS handphone secara langsung saat berada di tempat kejadian konflik agar mempercepat tim penyelamat melacak lokasi.</p>
               </div>
             </div>
@@ -304,7 +315,6 @@
         </div>
       </section>
 
-      <!-- SEKSI FITUR & LAYANAN UTAMA -->
       <section class="py-16 bg-white dark:bg-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12">
           
@@ -354,7 +364,7 @@
 
     </section>
 
-    <!-- ==================== TAB 1: PETA SEBARAN (INTERACTIVE MAP) ==================== -->
+    <!-- ==================== TAB 1: PETA SEBARAN ==================== -->
     <section id="tab-peta" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
       <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -380,7 +390,6 @@
           </div>
         </div>
 
-        <!-- MAP CONTAINER & LEGEND -->
         <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
           <div class="xl:col-span-3 relative rounded-[24px] overflow-hidden shadow-inner border border-slate-100 dark:border-slate-800">
             
@@ -457,14 +466,13 @@
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/80 dark:border-slate-700/60 shadow-premium space-y-6">
         
         <div class="text-center max-w-md mx-auto space-y-2 border-b border-slate-100 dark:border-slate-700 pb-4">
-          <img src="7.png" alt="SILARAS Emblem" class="w-16 h-16 object-contain mx-auto mb-2 animate-pulse">
+          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-16 h-16 object-contain mx-auto mb-2 animate-pulse">
           <h3 class="text-xl font-black text-slate-850 dark:text-white tracking-tight">Formulir Pengaduan Konflik Satwa</h3>
           <p class="text-xs text-slate-400 leading-relaxed">Silakan lengkapi formulir di bawah ini dengan valid guna mempermudah penanganan mitigasi satwa liar.</p>
         </div>
 
         <form id="formAduan" onsubmit="submitAduan(event)" class="space-y-6">
           
-          <!-- 1. IDENTITAS PELAPOR -->
           <div class="space-y-4">
             <div class="flex items-center gap-2 font-black text-emerald-600 dark:text-emerald-400 border-b border-slate-100 dark:border-slate-700/50 pb-2">
               <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">1</span>
@@ -483,7 +491,6 @@
             </div>
           </div>
 
-          <!-- 2. INFORMASI KEJADIAN & SATWA -->
           <div class="space-y-4">
             <div class="flex items-center gap-2 font-black text-emerald-600 dark:text-emerald-400 border-b border-slate-100 dark:border-slate-700/50 pb-2">
               <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">2</span>
@@ -546,7 +553,6 @@
             </div>
           </div>
 
-          <!-- 3. GEOLOKASI & LAMPIRAN MEDIA (MULTI-FILE SUPPORTS) -->
           <div class="space-y-4">
             <div class="flex items-center gap-2 font-black text-emerald-600 dark:text-emerald-400 border-b border-slate-100 dark:border-slate-700/50 pb-2">
               <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">3</span>
@@ -605,10 +611,9 @@
       </div>
     </section>
 
-    <!-- ==================== TAB 3: LACAK STATUS (SILARAS LACAK SYSTEM) ==================== -->
+    <!-- ==================== TAB 3: LACAK STATUS ==================== -->
     <section id="tab-lacak" class="hidden max-w-4xl mx-auto px-4 py-10 space-y-6">
       
-      <!-- Lacak Card Header Search -->
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/85 dark:border-slate-700/60 shadow-premium text-center space-y-4">
         <h3 class="text-xl font-extrabold text-slate-850 dark:text-white tracking-tight">Lacak Status Pengaduan Anda</h3>
         <p class="text-xs text-slate-500">Gunakan kode tiket pengaduan dari sistem untuk melacak posisi WRU (misal: TRK-2026-001)</p>
@@ -624,7 +629,6 @@
         </div>
       </div>
 
-      <!-- Tracking Results Area -->
       <div id="trackingResultArea" class="hidden bg-white dark:bg-slate-800 rounded-[28px] border border-slate-150/85 dark:border-slate-700/60 shadow-premium overflow-hidden transition-all duration-300">
         
         <!-- Header status tiket -->
@@ -722,7 +726,6 @@
     <!-- ==================== TAB 4: STATISTIK & DATA ==================== -->
     <section id="tab-dashboard" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
       
-      <!-- KARTU STATISTIK -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-slate-800 p-5 rounded-[20px] shadow-premium border border-slate-100 dark:border-slate-700/50 flex items-center gap-4 transition-transform hover:-translate-y-1 duration-200">
           <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl shrink-0">
@@ -769,7 +772,6 @@
         </div>
       </div>
 
-      <!-- GRAFIK & DIAGRAM -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium lg:col-span-2">
           <div class="flex items-center justify-between mb-4">
@@ -800,7 +802,6 @@
     <!-- ==================== TAB 5: KELOLA ADUAN (ADMIN ONLY) ==================== -->
     <section id="tab-kelola" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
       
-      <!-- SUB CONTAINER 1: JIKA PETUGAS SUDAH LOGIN (AUTHORIZED) -->
       <div id="kelolaAduanContent" class="hidden space-y-4">
         
         <!-- HEADER KELOLA -->
@@ -846,7 +847,6 @@
           </div>
         </div>
 
-        <!-- DATA TABLE CARD -->
         <div class="bg-white dark:bg-slate-800 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
@@ -874,7 +874,6 @@
 
       </div>
 
-      <!-- SUB CONTAINER 2: JIKA PETUGAS BELUM LOGIN (UNAUTHORIZED STATE) -->
       <div id="kelolaAduanUnauthorized" class="bg-white dark:bg-slate-800 p-12 text-center rounded-[28px] border border-slate-150/85 dark:border-slate-700/60 shadow-premium max-w-lg mx-auto space-y-5">
         <div class="w-16 h-16 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-sm">
           <i class="fa-solid fa-shield-halved animate-pulse"></i>
@@ -896,14 +895,13 @@
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="bg-slate-900 border-t border-slate-800/60 py-12 text-slate-400">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
       
       <div class="space-y-4">
-        <!-- Logo Resmi dalam Footer -->
-        <div class="flex items-center cursor-pointer mb-2" onclick="switchTab('beranda')">
-          <img src="6.png" alt="SILARAS Logo Footer" class="h-12 object-contain brightness-110">
+        <div class="flex items-center gap-2 cursor-pointer mb-2" onclick="switchTab('beranda')">
+          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo Footer" class="h-10 object-contain brightness-110">
+          <span class="text-white font-black tracking-widest text-sm uppercase">SILARAS</span>
         </div>
         <p class="leading-relaxed text-slate-500">Platform pelaporan terpadu mitigasi &amp; penyelamatan konflik satwa liar guna keharmonisan ekosistem alam Kalimantan Timur.</p>
       </div>
@@ -948,7 +946,7 @@
   <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 max-w-sm w-full p-6 rounded-[28px] shadow-2xl border dark:border-slate-700/50 space-y-6">
       <div class="text-center space-y-1">
-        <img src="7.png" alt="SILARAS Emblem" class="w-12 h-12 object-contain mx-auto mb-2">
+        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-12 h-12 object-contain mx-auto mb-2">
         <h3 class="font-extrabold text-base text-slate-850 dark:text-white">Autentikasi Petugas</h3>
         <p class="text-[11px] text-slate-400">Hanya untuk Petugas dan Administrator Balai KSDA</p>
       </div>
@@ -986,7 +984,7 @@
   <!-- ==================== MODAL SUCCESS ADUAN (TICKET ID DISPLAY) ==================== -->
   <div id="successAduanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 max-w-md w-full p-6 rounded-[28px] shadow-2xl border dark:border-slate-700/50 text-center space-y-5">
-      <img src="7.png" alt="SILARAS Success" class="w-16 h-16 object-contain mx-auto animate-bounce">
+      <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Success" class="w-16 h-16 object-contain mx-auto animate-bounce">
       
       <div class="space-y-2">
         <h3 class="text-lg font-black text-slate-850 dark:text-white">Laporan Berhasil Terkirim!</h3>
@@ -1008,7 +1006,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL TINDAK LANJUT ADUAN (MULTI-FILE FIELD FOR FIELDPROOF) ==================== -->
+  <!-- ==================== MODAL TINDAK LANJUT ADUAN ==================== -->
   <div id="actionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 max-w-lg w-full p-6 rounded-[28px] shadow-2xl border dark:border-slate-700/50 space-y-5">
       <div class="flex items-center justify-between">
@@ -1034,7 +1032,6 @@
         </div>
         <div class="col-span-2 hidden" id="actFotoContainer">
           <span class="text-slate-400 block uppercase tracking-wider font-bold mb-1">Bukti File Pelapor</span>
-          <!-- Media display dynamically inside modal -->
           <div id="actMediaPlaceholder" class="flex gap-2 flex-wrap"></div>
         </div>
       </div>
@@ -1063,7 +1060,6 @@
             <input type="file" id="actPetugasBukti" accept="image/*,video/*" multiple onchange="previewPetugasMedia(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
             <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-cloud-arrow-up text-emerald-600 mr-1"></i> Klik untuk lampirkan beberapa foto/video bukti penanganan</p>
           </div>
-          <!-- Previews for fieldproofs -->
           <div id="petugasMediaPreviews" class="grid grid-cols-4 gap-2 pt-2 hidden"></div>
         </div>
 
@@ -1184,14 +1180,63 @@
     };
 
     function detectExecutionEnvironment() {
-      if (typeof google === 'undefined') {
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "") {
+        appState.isMockMode = false;
+        console.log("⚡ Integrasi API Terdeteksi: Menghubungkan asinkron langsung ke Google Apps Script.");
+      } else if (typeof google === 'undefined') {
         appState.isMockMode = true;
-        console.log("⚠️ Aplikasi berjalan dalam MOCK PREVIEW MODE (Luar GAS).");
-        showToast("Mock Mode Aktif: Silakan buat aduan dan lacak nomor tiketnya!", "info");
+        console.log("⚠️ Aplikasi berjalan dalam MOCK PREVIEW MODE.");
+        showToast("Mode Demo Aktif: Isi GAS_WEB_APP_URL di file index.html untuk integrasi!", "info");
       }
     }
 
-    // THEME & REALTIME CLOCK
+    function callBackend(action, data = {}) {
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "") {
+        return fetch(GAS_WEB_APP_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain' // Bypass CORS Preflight
+          },
+          body: JSON.stringify({ action: action, ...data })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Koneksi Gagal! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(res => {
+          if (res.success) {
+            return res.data;
+          } else {
+            throw new Error(res.error || "Gagal memproses aksi backend.");
+          }
+        });
+      } else {
+        return new Promise((resolve, reject) => {
+          if (appState.isMockMode) {
+            reject("Mock Mode Active");
+            return;
+          }
+          
+          const runner = google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler(reject);
+            
+          if (action === "read") {
+            runner.readData();
+          } else if (action === "create") {
+            runner.createData(data.payload);
+          } else if (action === "update") {
+            runner.updateData(data.id, data.status, data.tanggapan, data.petugasProofs);
+          } else if (action === "login") {
+            runner.login(data.username, data.password);
+          }
+        });
+      }
+    }
+
     function toggleDarkMode() {
       document.documentElement.classList.toggle('dark');
       const isDark = document.documentElement.classList.contains('dark');
@@ -1221,9 +1266,7 @@
       }
     }
 
-    // NAVIGATION TABS (LANDING PORTAL SWITCH WITH ACCESS CONTROL SECURITY)
     function switchTab(tabId) {
-      // PROTEKSI AKSES: Hanya admin atau petugas yang login yang bisa masuk tab kelola
       if (tabId === 'kelola' && !appState.user) {
         showToast("Akses ditolak! Anda harus masuk terlebih dahulu sebagai Petugas.", "error");
         openLoginModal();
@@ -1238,7 +1281,6 @@
         activeSection.classList.remove('hidden');
       }
 
-      // Update Desktop Nav Active States
       document.querySelectorAll('.nav-link-btn').forEach(btn => {
         btn.className = "nav-link-btn px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/30 transition-all";
       });
@@ -1248,7 +1290,6 @@
         activeBtn.className = "nav-link-btn px-4 py-2.5 rounded-xl text-xs font-extrabold text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700";
       }
 
-      // Handle map re-draw when switching to Map tab
       if (tabId === 'peta') {
         setTimeout(() => {
           if (appState.map) {
@@ -1264,7 +1305,6 @@
       menu.classList.toggle('hidden');
     }
 
-    // MAP SETUP, SATELLITE LAYER, & GEOLOCATION
     function initializeMap() {
       mapLayers.streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
@@ -1323,7 +1363,6 @@
       );
     }
 
-    // MULTIPLE FILES HANDLERS (CITIZENS)
     function previewMultipleMedia(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
@@ -1348,7 +1387,7 @@
         };
         reader.readAsDataURL(file);
       });
-      event.target.value = ""; // Reset input
+      event.target.value = "";
     }
 
     function renderCitizenPreviews() {
@@ -1374,7 +1413,6 @@
           itemDiv.innerHTML = `<img src="${media.data}" class="w-full h-full object-cover">`;
         }
 
-        // Remove button
         const removeBtn = document.createElement('button');
         removeBtn.type = "button";
         removeBtn.onclick = (e) => {
@@ -1390,7 +1428,6 @@
       });
     }
 
-    // MULTIPLE FILES HANDLERS (OFFICERS)
     function previewPetugasMedia(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
@@ -1418,7 +1455,6 @@
       event.target.value = "";
     }
 
-    // RENDERING PREVIEWS OF OFFICER SOLUTIONS
     function renderPetugasPreviews() {
       const previewsContainer = document.getElementById('petugasMediaPreviews');
       previewsContainer.innerHTML = "";
@@ -1452,7 +1488,6 @@
       });
     }
 
-    // UTILITY: EXTRACT BASIC SPECIES NAME FOR MAPPING
     function mapFullSpeciesToShort(fullName) {
       if (fullName.includes("Orangutan")) return "Orangutan";
       if (fullName.includes("Beruang Madu")) return "Beruang Madu";
@@ -1464,7 +1499,6 @@
       return "Lainnya";
     }
 
-    // SERVER CALLS & DATA FLOW
     function showLoading(show, text = "Sedang memproses...") {
       const overlay = document.getElementById('loadingOverlay');
       document.getElementById('loadingText').textContent = text;
@@ -1523,23 +1557,21 @@
         return;
       }
 
-      google.script.run
-        .withSuccessHandler((response) => {
-          appState.aduanData = response;
+      callBackend('read')
+        .then((response) => {
+          appState.aduanData = response || [];
           renderDashboard();
           renderConflictMap();
           renderTabelAduan();
           updateLandingQuickStats();
           showLoading(false);
         })
-        .withFailureHandler((error) => {
+        .catch((error) => {
           showLoading(false);
           showToast("Gagal mengambil data dari server: " + error, "error");
-        })
-        .readData();
+        });
     }
 
-    // UPDATE LANDING PAGE STATS
     function updateLandingQuickStats() {
       const total = appState.aduanData.length;
       const masuk = appState.aduanData.filter(d => d.status === 'Masuk').length;
@@ -1557,7 +1589,6 @@
       }
     }
 
-    // PROCESS DASHBOARD & CHARTS
     function renderDashboard() {
       const total = appState.aduanData.length;
       const masuk = appState.aduanData.filter(d => d.status === 'Masuk').length;
@@ -1630,7 +1661,6 @@
         }
       });
 
-      // Render Sering Konflik List
       const sortedSatwa = Object.entries(satwaCounts).sort((a,b) => b[1] - a[1]);
       const listSeringEl = document.getElementById('listSeringKonflik');
       listSeringEl.innerHTML = "";
@@ -1644,7 +1674,6 @@
       });
     }
 
-    // PROCESS INTERACTIVE MAP
     function renderConflictMap() {
       appState.mapMarkers.forEach(m => appState.map.removeLayer(m));
       appState.mapMarkers = [];
@@ -1668,7 +1697,6 @@
           iconAnchor: [11, 11]
         });
 
-        // Use first media asset as primary marker visual representation
         let mediaHtml = "";
         if (item.bukti && item.bukti.length > 0) {
           const primaryMedia = item.bukti[0];
@@ -1707,7 +1735,6 @@
       });
     }
 
-    // PROCESS DATA TABLE
     function renderTabelAduan() {
       const tbody = document.getElementById('tabelAduanBody');
       const emptyState = document.getElementById('tabelEmptyState');
@@ -1765,7 +1792,6 @@
       });
     }
 
-    // SEARCH & FILTER TABLE
     function filterTable() {
       const searchVal = document.getElementById('searchAduan').value.toLowerCase();
       const statusVal = document.getElementById('filterStatus').value;
@@ -1796,11 +1822,9 @@
       else emptyState.classList.add('hidden');
     }
 
-    // SUBMIT NEW ADUAN
     function submitAduan(e) {
       e.preventDefault();
       
-      // Map multiple base64 media sources
       const mediaUrlsArray = citizenSelectedMedia.map(m => m.data);
       const generatedTicket = `TRK-2026-${String(appState.aduanData.length + 1).padStart(3, '0')}`;
 
@@ -1815,7 +1839,7 @@
         deskripsi: document.getElementById('formDeskripsi').value,
         lat: parseFloat(document.getElementById('formLat').value),
         lng: parseFloat(document.getElementById('formLng').value),
-        bukti: mediaUrlsArray, // Array of strings (base64 or direct URL)
+        bukti: mediaUrlsArray, 
         status: 'Masuk',
         tanggal: new Date().toISOString().replace('T', ' ').substring(0, 16),
         tanggapan: "",
@@ -1836,15 +1860,13 @@
           citizenSelectedMedia = [];
           renderCitizenPreviews();
           showLoading(false);
-          
-          // Show Ticket Generated Modal
           openSuccessAduanModal(generatedTicket);
         }, 1200);
         return;
       }
 
-      google.script.run
-        .withSuccessHandler((response) => {
+      callBackend('create', { payload: payload })
+        .then((response) => {
           showLoading(false);
           document.getElementById('formAduan').reset();
           citizenSelectedMedia = [];
@@ -1852,14 +1874,12 @@
           openSuccessAduanModal(response.id);
           fetchData();
         })
-        .withFailureHandler((err) => {
+        .catch((err) => {
           showLoading(false);
           showToast("Gagal mengirim aduan: " + err, "error");
-        })
-        .createData(payload);
+        });
     }
 
-    // SUCCESS ADUAN TICKET ID DISPLAY MODAL LOGIC
     function openSuccessAduanModal(ticketId) {
       lastGeneratedTicketId = ticketId;
       document.getElementById('displayTicketId').textContent = ticketId;
@@ -1870,7 +1890,6 @@
       document.getElementById('successAduanModal').classList.add('hidden');
     }
 
-    // Copy Ticket Clipboard Logic
     function copyGeneratedTicketId() {
       const el = document.createElement('textarea');
       el.value = lastGeneratedTicketId;
@@ -1888,7 +1907,6 @@
       performComplaintTracking();
     }
 
-    // COMPLAINT TRACKING MODULE (Compatible with SILARAS layout design)
     function performComplaintTracking() {
       const ticketId = document.getElementById('inputLacakId').value.trim();
       const area = document.getElementById('trackingResultArea');
@@ -1910,7 +1928,6 @@
       emptyState.classList.add('hidden');
       area.classList.remove('hidden');
 
-      // 1. Status badge & Ticket ID
       document.getElementById('lacakTicketId').textContent = item.id;
       const statusBadge = document.getElementById('lacakStatusBadge');
       statusBadge.textContent = item.status;
@@ -1922,13 +1939,11 @@
         statusBadge.className = "px-3 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-full font-black text-[11px] inline-block mt-1";
       }
 
-      // 2. Info details
       document.getElementById('lacakSatwaName').textContent = item.satwa;
       document.getElementById('lacakKabupaten').textContent = item.kabupaten || "Kutai Kartanegara";
       document.getElementById('lacakKoordinat').textContent = `${item.lat.toFixed(4)}, ${item.lng.toFixed(4)}`;
       document.getElementById('lacakKondisi').textContent = `"${item.deskripsi}"`;
 
-      // 3. Media Viewer / Slider
       const mediaPreviewContainer = document.getElementById('lacakMediaPreviewContainer');
       const thumbnailsContainer = document.getElementById('lacakMediaThumbnails');
       
@@ -1946,10 +1961,8 @@
           }
         };
 
-        // Show the first image inside active display as default
         setLacakActiveMedia(item.bukti[0]);
 
-        // Draw slide thumbnails
         item.bukti.forEach(src => {
           const thumb = document.createElement('div');
           thumb.className = "w-12 h-12 rounded-lg overflow-hidden border cursor-pointer border-slate-200 hover:border-emerald-500 bg-slate-900 shrink-0";
@@ -1966,7 +1979,6 @@
         mediaPreviewContainer.innerHTML = `<div class="text-slate-500 text-xs text-center"><i class="fa-solid fa-photo-film text-xl mb-1 block"></i> Lampiran berkas kosong</div>`;
       }
 
-      // 4. Action Rescue & Officer Proofs
       const tanggapanEl = document.getElementById('lacakTanggapanPetugas');
       const petugasProofsSection = document.getElementById('petugasMediaSection');
       const petugasProofsThumbs = document.getElementById('petugasMediaThumbs');
@@ -2001,24 +2013,22 @@
         }
       }
 
-      // 5. Timeline Generator
       const timelineContainer = document.getElementById('lacakTimelineContainer');
       timelineContainer.innerHTML = "";
 
       addTimelineNode(item.tanggal, "Laporan berhasil terkirim ke dalam sistem SILARAS.", timelineContainer);
 
       if (item.status === 'Dalam Penanganan' || item.status === 'Selesai') {
-        const verifikasiTime = offsetTimestamp(item.tanggal, 90); // 1.5 Hour offset
+        const verifikasiTime = offsetTimestamp(item.tanggal, 90); 
         addTimelineNode(verifikasiTime, "Aduan terverifikasi. Tim Wildlife Rescue Unit (WRU) Seksi Wilayah diterjunkan menuju koordinat lokasi kejadian.", timelineContainer);
       }
 
       if (item.status === 'Selesai') {
-        const selesaiTime = offsetTimestamp(item.tanggal, 240); // 4 Hours offset
+        const selesaiTime = offsetTimestamp(item.tanggal, 240); 
         addTimelineNode(selesaiTime, "Konflik berhasil diselesaikan. Satwa dievakuasi/dihalau dengan aman kembali ke habitat alaminya. Bukti file penanganan terlampir.", timelineContainer);
       }
     }
 
-    // TIMELINE HELPERS
     function addTimelineNode(time, text, parent) {
       const node = document.createElement('div');
       node.className = "relative pl-2";
@@ -2030,7 +2040,6 @@
       parent.appendChild(node);
     }
 
-    // OFFSET TIMELINE GENERATION
     function offsetTimestamp(original, minutes) {
       try {
         const date = new Date(original.replace(' ', 'T') + ":00Z");
@@ -2041,12 +2050,10 @@
       }
     }
 
-    // AUTHENTICATION LOGIC
     function openLoginModal() {
       document.getElementById('loginModal').classList.remove('hidden');
     }
 
-    // CLOSE LOGIN MODAL
     function closeLoginModal() {
       document.getElementById('loginModal').classList.add('hidden');
     }
@@ -2070,8 +2077,8 @@
         return;
       }
 
-      google.script.run
-        .withSuccessHandler((response) => {
+      callBackend('login', { username: user, password: pass })
+        .then((response) => {
           showLoading(false);
           if (response) {
             onLoginSuccess(response);
@@ -2079,11 +2086,10 @@
             showToast("Kredensial Tidak Ditemukan!", "error");
           }
         })
-        .withFailureHandler((err) => {
+        .catch((err) => {
           showLoading(false);
           showToast("Error Login: " + err, "error");
-        })
-        .login(user, pass);
+        });
     }
 
     function onLoginSuccess(userData) {
@@ -2091,7 +2097,6 @@
       closeLoginModal();
       showToast(`Selamat Datang, ${userData.fullName}!`, "success");
 
-      // Update UI Header & Mobile Menu
       document.getElementById('menuKelola').classList.remove('hidden');
       document.getElementById('mobileMenuKelola').classList.remove('hidden');
       document.getElementById('loginPromptBox').classList.add('hidden');
@@ -2107,7 +2112,6 @@
       document.getElementById('mobileUserAvatar').textContent = userData.fullName.substring(0, 2).toUpperCase();
       document.getElementById('mobileUserInfoBox').classList.remove('hidden');
 
-      // Tampilkan konten manajemen, sembunyikan unauthorized state
       document.getElementById('kelolaAduanContent').classList.remove('hidden');
       document.getElementById('kelolaAduanUnauthorized').classList.add('hidden');
       
@@ -2123,7 +2127,6 @@
       document.getElementById('userInfoBox').classList.add('hidden');
       document.getElementById('mobileUserInfoBox').classList.add('hidden');
 
-      // Amankan kembali halaman kelola aduan (sembunyikan konten, munculkan unauthorized state)
       document.getElementById('kelolaAduanContent').classList.add('hidden');
       document.getElementById('kelolaAduanUnauthorized').classList.remove('hidden');
       
@@ -2131,7 +2134,6 @@
       switchTab('beranda');
     }
 
-    // ACTION MODAL FOR PETUGAS IN FIELD
     function openActionModal(id) {
       if (!appState.user) {
         showToast("Anda harus login sebagai Petugas untuk mengelola aduan!", "warning");
@@ -2150,7 +2152,7 @@
       
       const mediaContainer = document.getElementById('actMediaPlaceholder');
       mediaContainer.innerHTML = "";
-      petugasSelectedMedia = []; // Clear previous drafts
+      petugasSelectedMedia = []; 
       renderPetugasPreviews();
 
       if (item.bukti && item.bukti.length > 0) {
@@ -2176,7 +2178,6 @@
       document.getElementById('actionModal').classList.remove('hidden');
     }
 
-    // Close Action Modal for Officers
     function closeActionModal() {
       document.getElementById('actionModal').classList.add('hidden');
     }
@@ -2187,7 +2188,7 @@
       const id = document.getElementById('actId').value;
       const status = document.getElementById('actStatus').value;
       const tanggapan = document.getElementById('actTanggapan').value;
-      const petugasProofs = petugasSelectedMedia.map(m => m.data); // Array of base64 strings
+      const petugasProofs = petugasSelectedMedia.map(m => m.data); 
 
       showLoading(true, "Menyimpan data tindak lanjut...");
 
@@ -2210,21 +2211,19 @@
         return;
       }
 
-      google.script.run
-        .withSuccessHandler((response) => {
+      callBackend('update', { id: id, status: status, tanggapan: tanggapan, petugasProofs: petugasProofs })
+        .then((response) => {
           showLoading(false);
           closeActionModal();
           showToast("Aduan Berhasil Diperbarui!", "success");
           fetchData();
         })
-        .withFailureHandler((err) => {
+        .catch((err) => {
           showLoading(false);
           showToast("Gagal menyimpan tindak lanjut: " + err, "error");
-        })
-        .updateData(id, status, tanggapan, petugasProofs);
+        });
     }
 
-    // CUSTOM LIGHTBOX MODAL FOR IMAGES/VIDEOS
     function showMediaModal(src, isVideo) {
       const modal = document.createElement('div');
       modal.className = "fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4";
@@ -2250,7 +2249,6 @@
       document.body.appendChild(modal);
     }
 
-    // EXPORT EXCEL FUNCTIONALITY
     function exportToExcel() {
       showLoading(true, "Menyiapkan file Excel...");
       let csvContent = "data:text/csv;charset=utf-8,";
@@ -2283,20 +2281,20 @@
       showToast("Data berhasil diekspor ke Excel (CSV)!", "success");
     }
   </script>
-<script type="text/javascript">
-    // Menonaktifkan Klik Kanan
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
+  
+  <script type="text/javascript">
+      // Keamanan Ringan Frontend: Menonaktifkan Klik Kanan & Inspect Element
+      document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+      });
 
-    // Menonaktifkan Shortcut Keyboard (F12, Ctrl+Shift+I, Ctrl+U)
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'F12' || 
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) || 
-            (e.ctrlKey && e.key === 'u')) {
-            e.preventDefault();
-        }
-    });
-</script>
-  </body>
+      document.addEventListener('keydown', function(e) {
+          if (e.key === 'F12' || 
+              (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) || 
+              (e.ctrlKey && e.key === 'u')) {
+              e.preventDefault();
+          }
+      });
+  </script>
+</body>
 </html>
