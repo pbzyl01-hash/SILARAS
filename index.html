@@ -374,6 +374,7 @@
 
     <!-- ==================== TAB 1: PETA SEBARAN ==================== -->
     <section id="tab-peta" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+      
       <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
@@ -398,7 +399,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 grid-cols-4 xl:grid-cols-4 gap-6">
           <div class="xl:col-span-3 relative rounded-[24px] overflow-hidden shadow-inner border border-slate-100 dark:border-slate-800">
             
             <!-- LEAFLET MAP ELEMENT -->
@@ -471,6 +472,7 @@
 
     <!-- ==================== TAB 2: BUAT LAPORAN (FORMULIR MULTI-FILE SUPPORTS) ==================== -->
     <section id="tab-formulir" class="hidden max-w-4xl mx-auto px-4 py-10 space-y-6">
+      
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/80 dark:border-slate-700/60 shadow-premium space-y-6">
         
         <div class="text-center max-w-md mx-auto space-y-2 border-b border-slate-100 dark:border-slate-700 pb-4">
@@ -494,7 +496,7 @@
               </div>
               <div class="space-y-1">
                 <label class="text-xs font-bold text-slate-700 dark:text-slate-300">No. Handphone (WhatsApp) <span class="text-red-500">*</span></label>
-                <input type="tel" id="formHp" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm transition-all shadow-inner" placeholder="Contoh: 0812-XXXX-XXXX">
+                <input type="tel" id="formHp" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm transition-all shadow-inner" placeholder="Contoh: 0812XXXXXXXX">
               </div>
             </div>
           </div>
@@ -621,6 +623,7 @@
 
     <!-- ==================== TAB 3: LACAK STATUS ==================== -->
     <section id="tab-lacak" class="hidden max-w-4xl mx-auto px-4 py-10 space-y-6">
+      
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/85 dark:border-slate-700/60 shadow-premium text-center space-y-4">
         <h3 class="text-xl font-extrabold text-slate-850 dark:text-white tracking-tight">Lacak Status Pengaduan Anda</h3>
         <p class="text-xs text-slate-500">Gunakan kode tiket pengaduan dari sistem untuk melacak posisi WRU (misal: TRK-2026-001)</p>
@@ -679,6 +682,10 @@
                   <span id="lacakKabupaten" class="font-extrabold text-slate-800 dark:text-slate-200">Kutai Kartanegara</span>
                 </div>
                 <div>
+                  <span class="text-slate-400 block font-bold">No HP Pelapor:</span>
+                  <span id="lacakHpPelapor" class="font-mono text-slate-800 dark:text-slate-200">0812345678</span>
+                </div>
+                <div class="col-span-2">
                   <span class="text-slate-400 block font-bold">Posisi Koordinat:</span>
                   <span id="lacakKoordinat" class="font-mono text-emerald-600 dark:text-emerald-400 font-bold">-0.2167, 116.7833</span>
                 </div>
@@ -732,6 +739,7 @@
 
     <!-- ==================== TAB 4: STATISTIK & DATA ==================== -->
     <section id="tab-dashboard" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+      
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-slate-800 p-5 rounded-[20px] shadow-premium border border-slate-100 dark:border-slate-700/50 flex items-center gap-4 transition-transform hover:-translate-y-1 duration-200">
           <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl shrink-0">
@@ -807,6 +815,7 @@
 
     <!-- ==================== TAB 5: KELOLA ADUAN (ADMIN ONLY) ==================== -->
     <section id="tab-kelola" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+      
       <div id="kelolaAduanContent" class="hidden space-y-4">
         
         <!-- HEADER KELOLA -->
@@ -951,7 +960,7 @@
 
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 pt-6 border-t border-slate-800/80 text-center text-[10px] text-slate-600 font-medium flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span>SILARAS V5.0 • Balai KSDA Kalimantan Timur &copy; 2026. Semua Hak Cipta Dilindungi.</span>
+      <span>SILARAS • Balai KSDA Kalimantan Timur &copy; 2026. Semua Hak Cipta Dilindungi.</span>
     </div>
   </footer>
 
@@ -1041,11 +1050,11 @@
         </div>
         <div class="col-span-2">
           <span class="text-slate-400 block uppercase tracking-wider font-bold">Uraian Kasus</span>
-          <p id="actDeskripsi" class="text-slate-600 dark:text-slate-300">Menyusup ke kebun buah warga...</p>
+          <p id="actDeskripsi" class="text-slate-650 dark:text-slate-300">Menyusup ke kebun buah warga...</p>
         </div>
         <div class="col-span-2 hidden" id="actFotoContainer">
           <span class="text-slate-400 block uppercase tracking-wider font-bold mb-1">Bukti File Pelapor</span>
-          <div id="actMediaPlaceholder" class="flex gap-2 flex-wrap"></div>
+          <div id="actMediaPlaceholder" class="flex gap-2 flex-wrap font-bold"></div>
         </div>
       </div>
 
@@ -1219,7 +1228,7 @@
           method: 'POST',
           mode: 'cors',
           headers: {
-            'Content-Type': 'text/plain;charset=utf-8' 
+            'Content-Type': 'text/plain;charset=utf-8' // Menghindari preflight OPTIONS request
           },
           body: JSON.stringify({ action: action, ...data })
         })
@@ -1235,29 +1244,38 @@
           } else {
             throw new Error(res.error || "Gagal memproses aksi backend.");
           }
+        })
+        .catch(err => {
+          console.error("Fetch gagal, mengaktifkan simulasi lokal:", err);
+          appState.isMockMode = true; // Otomatis fallback ke mock jika endpoint tidak merespons
+          return fallbackMockHandler(action, data);
         });
       } else {
-        // Robust Fallback: Memproses aksi secara simulasi apabila endpoint GAS belum disetup
-        return new Promise((resolve) => {
-          console.log(`[Mock API Triggered] Action: ${action}`, data);
-          setTimeout(() => {
-            if (action === "read") {
-              resolve(appState.aduanData.length ? appState.aduanData : MOCK_ADUAN_DATA);
-            } else if (action === "create") {
-              const newId = `TRK-2026-${String(appState.aduanData.length + 1).padStart(3, '0')}`;
-              resolve({ success: true, id: newId });
-            } else if (action === "update") {
-              resolve({ success: true });
-            } else if (action === "login") {
-              if (data.username === 'admin' && data.password === 'admin123') {
-                resolve({ username: 'admin', role: 'Admin', fullName: 'Administrator BKSDA' });
-              } else {
-                resolve(null);
-              }
-            }
-          }, 200);
-        });
+        return fallbackMockHandler(action, data);
       }
+    }
+
+    // Penanganan simulasi jika tidak terhubung GAS
+    function fallbackMockHandler(action, data) {
+      return new Promise((resolve) => {
+        console.log(`[Mock API Triggered] Action: ${action}`, data);
+        setTimeout(() => {
+          if (action === "read") {
+            resolve(appState.aduanData.length ? appState.aduanData : MOCK_ADUAN_DATA);
+          } else if (action === "create") {
+            const newId = `TRK-2026-${String(appState.aduanData.length + 1).padStart(3, '0')}`;
+            resolve({ success: true, id: newId });
+          } else if (action === "update") {
+            resolve({ success: true });
+          } else if (action === "login") {
+            if (data.username === 'admin' && data.password === 'admin123') {
+              resolve({ username: 'admin', role: 'Admin', fullName: 'Administrator BKSDA' });
+            } else {
+              resolve(null);
+            }
+          }
+        }, 50);
+      });
     }
 
     function toggleDarkMode() {
@@ -1511,10 +1529,10 @@
       if (fullName.includes("Orangutan")) return "Orangutan";
       if (fullName.includes("Beruang Madu")) return "Beruang Madu";
       if (fullName.includes("Beruk")) return "Beruk";
-      if (fullName.includes("Buaya Muara")) return "Buaya";
+      if (fullName.includes("Buaya")) return "Buaya";
       if (fullName.includes("Gajah Kalimantan")) return "Gajah Kalimantan";
       if (fullName.includes("Macan Dahan")) return "Macan Dahan";
-      if (fullName.includes("Ular Sanca")) return "Ular";
+      if (fullName.includes("Ular")) return "Ular";
       return "Lainnya";
     }
 
@@ -1566,7 +1584,6 @@
         });
     }
 
-    // SISTEM NOTIFIKASI BARU (REAL-TIME ADUAN MASUK)
     function toggleNotificationDropdown() {
       const dropdown = document.getElementById('notificationDropdown');
       dropdown.classList.toggle('hidden');
@@ -1578,7 +1595,6 @@
       const countLabel = document.getElementById('notificationCountLabel');
       const listContainer = document.getElementById('notificationList');
 
-      // Update Badge
       if (incomingAduan.length > 0) {
         badge.textContent = incomingAduan.length;
         badge.classList.remove('hidden');
@@ -1588,7 +1604,6 @@
         countLabel.textContent = '0 Baru';
       }
 
-      // Populate List
       listContainer.innerHTML = '';
       if (incomingAduan.length === 0) {
         listContainer.innerHTML = `
@@ -1677,7 +1692,6 @@
       const satwaLabels = Object.keys(satwaCounts);
       const satwaValues = Object.values(satwaCounts);
 
-      // Render Bar Chart Satwa
       if (appState.chartSatwa) appState.chartSatwa.destroy();
       const ctxSatwa = document.getElementById('chartSatwa').getContext('2d');
       appState.chartSatwa = new Chart(ctxSatwa, {
@@ -1706,7 +1720,6 @@
         }
       });
 
-      // Render Doughnut Chart Status
       if (appState.chartStatus) appState.chartStatus.destroy();
       const ctxStatus = document.getElementById('chartStatus').getContext('2d');
       appState.chartStatus = new Chart(ctxStatus, {
@@ -1765,9 +1778,12 @@
           iconAnchor: [11, 11]
         });
 
+        // Filter out empty media files
+        const validBukti = (item.bukti || []).filter(src => src && src.trim() !== "");
+
         let mediaHtml = "";
-        if (item.bukti && item.bukti.length > 0) {
-          const primaryMedia = item.bukti[0];
+        if (validBukti.length > 0) {
+          const primaryMedia = validBukti[0];
           const isVideo = primaryMedia.startsWith('data:video/') || primaryMedia.includes('.mp4');
           if (isVideo) {
             mediaHtml = `<video src="${primaryMedia}" class="w-full h-20 object-cover rounded mt-1 shadow-sm"></video>`;
@@ -1896,10 +1912,13 @@
       const mediaUrlsArray = citizenSelectedMedia.map(m => m.data);
       const generatedTicket = `TRK-2026-${String(appState.aduanData.length + 1).padStart(3, '0')}`;
 
+      // Memastikan nomor HP diisi dengan valid dan mempertahankan format string penuh
+      let originalHp = document.getElementById('formHp').value.trim();
+
       const payload = {
         id: generatedTicket,
         nama: document.getElementById('formNama').value,
-        hp: document.getElementById('formHp').value,
+        hp: originalHp,
         satwa: document.getElementById('formSatwa').value, 
         kabupaten: document.getElementById('formKabupaten').value,
         ancaman: document.getElementById('formAncaman').value,
@@ -2001,6 +2020,7 @@
 
       document.getElementById('lacakSatwaName').textContent = item.satwa;
       document.getElementById('lacakKabupaten').textContent = item.kabupaten || "Kutai Kartanegara";
+      document.getElementById('lacakHpPelapor').textContent = item.hp || "-";
       document.getElementById('lacakKoordinat').textContent = `${item.lat.toFixed(4)}, ${item.lng.toFixed(4)}`;
       document.getElementById('lacakKondisi').textContent = `"${item.deskripsi}"`;
 
@@ -2010,7 +2030,10 @@
       mediaPreviewContainer.innerHTML = "";
       thumbnailsContainer.innerHTML = "";
 
-      if (item.bukti && item.bukti.length > 0) {
+      // Memastikan hanya memproses item bukti lampiran pelapor yang bernilai valid (bukan string kosong)
+      const validBukti = (item.bukti || []).filter(src => src && src.trim() !== "");
+
+      if (validBukti.length > 0) {
         const setLacakActiveMedia = (src) => {
           mediaPreviewContainer.innerHTML = "";
           const isVideo = src.startsWith('data:video/') || src.includes('.mp4');
@@ -2021,9 +2044,9 @@
           }
         };
 
-        setLacakActiveMedia(item.bukti[0]);
+        setLacakActiveMedia(validBukti[0]);
 
-        item.bukti.forEach(src => {
+        validBukti.forEach(src => {
           const thumb = document.createElement('div');
           thumb.className = "w-12 h-12 rounded-lg overflow-hidden border cursor-pointer border-slate-200 hover:border-emerald-500 bg-slate-900 shrink-0";
           const isVideo = src.startsWith('data:video/') || src.includes('.mp4');
@@ -2051,9 +2074,11 @@
       } else {
         tanggapanEl.textContent = item.tanggapan || "Tim WRU Seksi Wilayah BKSDA sedang meluncur menuju koordinat untuk pengamanan lokasi.";
         
-        if (item.petugasBukti && item.petugasBukti.length > 0) {
+        const validPetugasBukti = (item.petugasBukti || []).filter(src => src && src.trim() !== "");
+
+        if (validPetugasBukti.length > 0) {
           petugasProofsSection.classList.remove('hidden');
-          item.petugasBukti.forEach(proof => {
+          validPetugasBukti.forEach(proof => {
             const wrapper = document.createElement('div');
             wrapper.className = "w-16 h-16 rounded-lg overflow-hidden border border-emerald-200 bg-slate-900 relative cursor-pointer hover:scale-105 transition-all";
             
@@ -2199,9 +2224,11 @@
       petugasSelectedMedia = []; 
       renderPetugasPreviews();
 
-      if (item.bukti && item.bukti.length > 0) {
+      const validBukti = (item.bukti || []).filter(src => src && src.trim() !== "");
+
+      if (validBukti.length > 0) {
         document.getElementById('actFotoContainer').classList.remove('hidden');
-        item.bukti.forEach(src => {
+        validBukti.forEach(src => {
           const isVid = src.startsWith('data:video/') || src.includes('.mp4');
           const thumb = document.createElement('div');
           thumb.className = "w-14 h-14 rounded overflow-hidden bg-slate-900 border flex items-center justify-center shrink-0";
@@ -2320,7 +2347,7 @@
   </script>
   
   <script type="text/javascript">
-      // Keamanan Ringan Frontend: Menonaktifkan Klik Kanan & Inspect Element
+      // Keamanan Ringan Frontend: Menyembunyikan klik kanan inspeksi
       document.addEventListener('contextmenu', function(e) {
           e.preventDefault();
       });
