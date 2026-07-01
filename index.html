@@ -119,18 +119,6 @@
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz06FmuQVuI3h4b2b-IUURahH5CHkFs-ahyjoDcUMASOgY56BPAZ34Luj9JLd5zprAK/exec"; 
   </script>
 
-  <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none opacity-0">
-    <div class="bg-white dark:bg-slate-800 p-8 rounded-[32px] shadow-2xl flex flex-col items-center border border-slate-100 dark:border-slate-700/50 max-w-xs text-center">
-      <div class="relative mb-4 flex items-center justify-center">
-        <!-- Spinner Ring -->
-        <div class="animate-spin rounded-full h-16 w-16 border-4 border-emerald-600 border-t-transparent"></div>
-        <!-- Logo Emblem di Tengah -->
-        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo" class="absolute w-10 h-10 object-contain rounded-full">
-      </div>
-      <p class="text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest" id="loadingText">Sedang Memproses...</p>
-    </div>
-  </div>
-
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer" class="fixed top-24 right-5 z-50 flex flex-col gap-2 max-w-sm w-full"></div>
 
@@ -588,7 +576,7 @@
               <div class="relative border-2 border-dashed border-slate-250 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-400 rounded-2xl p-6 transition-all bg-slate-50 dark:bg-slate-900 text-center cursor-pointer">
                 <input type="file" id="formFoto" accept="image/*,video/*" multiple onchange="previewMultipleMedia(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                 <div id="uploadPlaceholder" class="space-y-2">
-                  <i class="fa-solid fa-photo-film text-3xl text-slate-400 animate-pulse"></i>
+                  <i class="fa-solid fa-photo-film text-3xl text-slate-400"></i>
                   <p class="text-xs font-semibold text-slate-500">Klik atau seret file Foto / Video di sini (Bisa lebih dari 1)</p>
                   <span class="text-[10px] text-slate-400">Mendukung format gambar (.jpg, .png) & video (.mp4)</span>
                 </div>
@@ -613,7 +601,6 @@
 
     <!-- ==================== TAB 3: LACAK STATUS ==================== -->
     <section id="tab-lacak" class="hidden max-w-4xl mx-auto px-4 py-10 space-y-6">
-      
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/85 dark:border-slate-700/60 shadow-premium text-center space-y-4">
         <h3 class="text-xl font-extrabold text-slate-850 dark:text-white tracking-tight">Lacak Status Pengaduan Anda</h3>
         <p class="text-xs text-slate-500">Gunakan kode tiket pengaduan dari sistem untuk melacak posisi WRU (misal: TRK-2026-001)</p>
@@ -725,7 +712,6 @@
 
     <!-- ==================== TAB 4: STATISTIK & DATA ==================== -->
     <section id="tab-dashboard" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
-      
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-slate-800 p-5 rounded-[20px] shadow-premium border border-slate-100 dark:border-slate-700/50 flex items-center gap-4 transition-transform hover:-translate-y-1 duration-200">
           <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl shrink-0">
@@ -773,7 +759,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium lg:col-span-2">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100/80 dark:border-slate-700/50 shadow-premium lg:col-span-2">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-chart-column text-emerald-600"></i> Distribusi Konflik Satwa
@@ -785,7 +771,7 @@
           </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100/80 dark:border-slate-700/50 shadow-premium">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-chart-pie text-emerald-600"></i> Rasio Penanganan
@@ -918,12 +904,21 @@
 
       <div class="space-y-3">
         <h5 class="font-bold text-white text-sm">Hubungi Kami</h5>
-        <p class="leading-relaxed text-slate-500">
-          <b>Kantor Balai KSDA Kaltim</b><br>
-          Jl. Sentosa No.3, Samarinda, Kalimantan Timur<br>
-          Telp: (0541) 743515<br>
-          Email: info@bksdakaltim.org
-        </p>
+        <div class="leading-relaxed text-slate-500 space-y-2.5">
+          <b class="text-white block mb-1">Kantor Balai KSDA Kaltim</b>
+          <div class="flex items-center gap-2 mt-2">
+            <i class="fa-solid fa-phone text-emerald-500 shrink-0"></i>
+            <span>0821 1333 8181</span>
+          </div>
+          <div class="flex items-center gap-2 mt-2">
+            <i class="fa-solid fa-envelope text-emerald-500 shrink-0"></i>
+            <span class="break-all">bksda.kaltim@kehutanan.go.id</span>
+          </div>
+          <div class="flex items-start gap-2 mt-2">
+            <i class="fa-solid fa-location-dot text-emerald-500 mt-1 shrink-0"></i>
+            <span>Jl. Teuku Umar RT. 34 Kelurahan Karang Asam Ilir Kecamatan Sungai Kunjang Samarinda</span>
+          </div>
+        </div>
       </div>
 
       <div class="space-y-3">
@@ -1180,23 +1175,25 @@
     };
 
     function detectExecutionEnvironment() {
-      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "") {
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_")) {
         appState.isMockMode = false;
         console.log("⚡ Integrasi API Terdeteksi: Menghubungkan asinkron langsung ke Google Apps Script.");
-      } else if (typeof google === 'undefined') {
+      } else {
         appState.isMockMode = true;
-        console.log("⚠️ Aplikasi berjalan dalam MOCK PREVIEW MODE.");
-        showToast("Mode Demo Aktif: Isi GAS_WEB_APP_URL di file index.html untuk integrasi!", "info");
+        console.log("⚠️ Aplikasi berjalan dalam MOCK PREVIEW MODE (Lokal / Sandbox).");
       }
     }
 
     function callBackend(action, data = {}) {
-      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "") {
+      const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
+      
+      if (isUrlValid) {
+        // Menggunakan fetch asinkron dengan header text/plain untuk melewati CORS Preflight OPTIONS block
         return fetch(GAS_WEB_APP_URL, {
           method: 'POST',
           mode: 'cors',
           headers: {
-            'Content-Type': 'text/plain' // Bypass CORS Preflight
+            'Content-Type': 'text/plain;charset=utf-8' 
           },
           body: JSON.stringify({ action: action, ...data })
         })
@@ -1214,25 +1211,25 @@
           }
         });
       } else {
-        return new Promise((resolve, reject) => {
-          if (appState.isMockMode) {
-            reject("Mock Mode Active");
-            return;
-          }
-          
-          const runner = google.script.run
-            .withSuccessHandler(resolve)
-            .withFailureHandler(reject);
-            
-          if (action === "read") {
-            runner.readData();
-          } else if (action === "create") {
-            runner.createData(data.payload);
-          } else if (action === "update") {
-            runner.updateData(data.id, data.status, data.tanggapan, data.petugasProofs);
-          } else if (action === "login") {
-            runner.login(data.username, data.password);
-          }
+        // Robust Fallback: Memproses aksi secara simulasi apabila endpoint GAS belum disetup
+        return new Promise((resolve) => {
+          console.log(`[Mock API Triggered] Action: ${action}`, data);
+          setTimeout(() => {
+            if (action === "read") {
+              resolve(appState.aduanData.length ? appState.aduanData : MOCK_ADUAN_DATA);
+            } else if (action === "create") {
+              const newId = `TRK-2026-${String(appState.aduanData.length + 1).padStart(3, '0')}`;
+              resolve({ success: true, id: newId });
+            } else if (action === "update") {
+              resolve({ success: true });
+            } else if (action === "login") {
+              if (data.username === 'admin' && data.password === 'admin123') {
+                resolve({ username: 'admin', role: 'Admin', fullName: 'Administrator BKSDA' });
+              } else {
+                resolve(null);
+              }
+            }
+          }, 200);
         });
       }
     }
@@ -1341,9 +1338,7 @@
     }
 
     function getCurrentLocation() {
-      showLoading(true, "Mendeteksi posisi GPS...");
       if (!navigator.geolocation) {
-        showLoading(false);
         showToast("Fitur GPS tidak didukung browser ini.", "error");
         return;
       }
@@ -1352,11 +1347,9 @@
         (position) => {
           document.getElementById('formLat').value = position.coords.latitude.toFixed(6);
           document.getElementById('formLng').value = position.coords.longitude.toFixed(6);
-          showLoading(false);
           showToast("Posisi GPS berhasil terkunci!", "success");
         },
-        (error) => {
-          showLoading(false);
+        () => {
           showToast("Gagal mendeteksi lokasi. Isikan secara manual.", "warning");
         },
         { enableHighAccuracy: true, timeout: 8000 }
@@ -1499,14 +1492,9 @@
       return "Lainnya";
     }
 
-    function showLoading(show, text = "Sedang memproses...") {
-      const overlay = document.getElementById('loadingOverlay');
-      document.getElementById('loadingText').textContent = text;
-      if (show) {
-        overlay.classList.remove('opacity-0', 'pointer-events-none');
-      } else {
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-      }
+    function showLoading(show, text = "") {
+      // Dinonaktifkan total agar alur aplikasi instan dan bersih
+      console.log("Loading overlay bypassed:", show, text);
     }
 
     function showToast(message, type = "success") {
@@ -1543,20 +1531,6 @@
     }
 
     function fetchData() {
-      showLoading(true, "Memuat data konflik terbaru...");
-      
-      if (appState.isMockMode) {
-        setTimeout(() => {
-          appState.aduanData = [...MOCK_ADUAN_DATA];
-          renderDashboard();
-          renderConflictMap();
-          renderTabelAduan();
-          updateLandingQuickStats();
-          showLoading(false);
-        }, 1000);
-        return;
-      }
-
       callBackend('read')
         .then((response) => {
           appState.aduanData = response || [];
@@ -1564,10 +1538,8 @@
           renderConflictMap();
           renderTabelAduan();
           updateLandingQuickStats();
-          showLoading(false);
         })
         .catch((error) => {
-          showLoading(false);
           showToast("Gagal mengambil data dari server: " + error, "error");
         });
     }
@@ -1846,36 +1818,28 @@
         petugasBukti: []
       };
 
-      showLoading(true, "Mengirimkan laporan aduan resmi...");
-
-      if (appState.isMockMode) {
-        setTimeout(() => {
-          appState.aduanData.unshift(payload);
-          renderDashboard();
-          renderConflictMap();
-          renderTabelAduan();
-          updateLandingQuickStats();
-          
-          document.getElementById('formAduan').reset();
-          citizenSelectedMedia = [];
-          renderCitizenPreviews();
-          showLoading(false);
-          openSuccessAduanModal(generatedTicket);
-        }, 1200);
-        return;
-      }
-
       callBackend('create', { payload: payload })
         .then((response) => {
-          showLoading(false);
+          const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
+          if (!isUrlValid || appState.isMockMode) {
+            // Jalankan update lokal di preview jika integrasi GAS kosong/gagal
+            appState.aduanData.unshift(payload);
+            renderDashboard();
+            renderConflictMap();
+            renderTabelAduan();
+            updateLandingQuickStats();
+          }
+
           document.getElementById('formAduan').reset();
           citizenSelectedMedia = [];
           renderCitizenPreviews();
-          openSuccessAduanModal(response.id);
-          fetchData();
+          openSuccessAduanModal(response.id || generatedTicket);
+          
+          if (isUrlValid) {
+            fetchData();
+          }
         })
         .catch((err) => {
-          showLoading(false);
           showToast("Gagal mengirim aduan: " + err, "error");
         });
     }
@@ -2063,31 +2027,15 @@
       const user = document.getElementById('loginUsername').value;
       const pass = document.getElementById('loginPassword').value;
 
-      showLoading(true, "Memverifikasi Kredensial...");
-
-      if (appState.isMockMode) {
-        setTimeout(() => {
-          showLoading(false);
-          if (user === 'admin' && pass === 'admin123') {
-            onLoginSuccess({ username: 'admin', role: 'Admin', fullName: 'Administrator BKSDA' });
-          } else {
-            showToast("Username atau Password Salah!", "error");
-          }
-        }, 800);
-        return;
-      }
-
       callBackend('login', { username: user, password: pass })
         .then((response) => {
-          showLoading(false);
           if (response) {
             onLoginSuccess(response);
           } else {
-            showToast("Kredensial Tidak Ditemukan!", "error");
+            showToast("Username atau Password Salah!", "error");
           }
         })
         .catch((err) => {
-          showLoading(false);
           showToast("Error Login: " + err, "error");
         });
     }
@@ -2190,36 +2138,31 @@
       const tanggapan = document.getElementById('actTanggapan').value;
       const petugasProofs = petugasSelectedMedia.map(m => m.data); 
 
-      showLoading(true, "Menyimpan data tindak lanjut...");
-
-      if (appState.isMockMode) {
-        setTimeout(() => {
-          const idx = appState.aduanData.findIndex(d => d.id === id);
-          if (idx !== -1) {
-            appState.aduanData[idx].status = status;
-            appState.aduanData[idx].tanggapan = tanggapan;
-            appState.aduanData[idx].petugasBukti = petugasProofs;
+      callBackend('update', { id: id, status: status, tanggapan: tanggapan, petugasProofs: petugasProofs })
+        .then(() => {
+          const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
+          if (!isUrlValid || appState.isMockMode) {
+            // Update lokal simulasi
+            const idx = appState.aduanData.findIndex(d => d.id === id);
+            if (idx !== -1) {
+              appState.aduanData[idx].status = status;
+              appState.aduanData[idx].tanggapan = tanggapan;
+              appState.aduanData[idx].petugasBukti = petugasProofs;
+            }
+            renderDashboard();
+            renderConflictMap();
+            renderTabelAduan();
+            updateLandingQuickStats();
           }
-          renderDashboard();
-          renderConflictMap();
-          renderTabelAduan();
-          updateLandingQuickStats();
-          showLoading(false);
+
           closeActionModal();
           showToast("Tindak lanjut aduan berhasil disimpan!", "success");
-        }, 1000);
-        return;
-      }
-
-      callBackend('update', { id: id, status: status, tanggapan: tanggapan, petugasProofs: petugasProofs })
-        .then((response) => {
-          showLoading(false);
-          closeActionModal();
-          showToast("Aduan Berhasil Diperbarui!", "success");
-          fetchData();
+          
+          if (isUrlValid) {
+            fetchData();
+          }
         })
         .catch((err) => {
-          showLoading(false);
           showToast("Gagal menyimpan tindak lanjut: " + err, "error");
         });
     }
@@ -2250,7 +2193,6 @@
     }
 
     function exportToExcel() {
-      showLoading(true, "Menyiapkan file Excel...");
       let csvContent = "data:text/csv;charset=utf-8,";
       csvContent += "ID,Tanggal,Nama Pelapor,No HP,Satwa,Keterangan,Lat,Lng,Status,Tanggapan\r\n";
       
@@ -2277,7 +2219,6 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showLoading(false);
       showToast("Data berhasil diekspor ke Excel (CSV)!", "success");
     }
   </script>
