@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SILARAS – Sistem Informasi Laporan dan Respons Konflik Satwa</title>
   
-  <!-- Favicon SILARAS -->
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" />
-  <link rel="shortcut icon" type="image/png" href="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" />
+  <!-- Favicon Resmi SILARAS -->
+  <link rel="icon" type="image/png" href="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" />
+  <link rel="shortcut icon" type="image/png" href="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -125,10 +125,9 @@
   <header class="glass-nav border-b border-slate-100 dark:border-slate-800/80 sticky top-0 z-40 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
-      <!-- SILARAS Logo Branding & Animated Title -->
+      <!-- SILARAS Logo Branding menggunakan gambar header baru -->
       <div class="flex items-center gap-3 cursor-pointer py-1" onclick="switchTab('beranda')">
-        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo" class="h-11 md:h-12 object-contain transition-transform hover:scale-[1.02] duration-200 dark:brightness-110">
-        <h1 class="text-lg md:text-xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 glowing-pulsing-title uppercase">SILARAS</h1>
+        <img src="ChatGPT Image Jul 1, 2026, 10_47_14 PM.png" alt="SILARAS Logo" class="h-11 md:h-14 object-contain transition-transform hover:scale-[1.02] duration-200 dark:brightness-110">
       </div>
 
       <!-- Desktop Premium Menu Links -->
@@ -141,8 +140,28 @@
         <button onclick="switchTab('kelola')" id="menuKelola" class="nav-link-btn hidden px-4 py-2.5 rounded-xl text-xs font-black text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all"><i class="fa-solid fa-clipboard-list mr-1.5"></i>Kelola Aduan</button>
       </nav>
 
-      <!-- Action Buttons & Theme Toggle -->
+      <!-- Action Buttons, Notification Bell & Theme Toggle -->
       <div class="flex items-center gap-3">
+        
+        <!-- Fitur Notifikasi Aduan Baru (Tampak untuk Admin/Umum ketika terdeteksi laporan masuk) -->
+        <div class="relative" id="notificationArea">
+          <button id="notificationBellBtn" onclick="toggleNotificationDropdown()" class="relative w-10 h-10 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700 shadow-sm" title="Notifikasi Laporan Masuk">
+            <i class="fa-solid fa-bell text-lg"></i>
+            <span id="notificationBadge" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-600 text-white rounded-full text-[10px] font-black flex items-center justify-center hidden animate-bounce">0</span>
+          </button>
+          
+          <!-- Dropdown Notifikasi -->
+          <div id="notificationDropdown" class="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl z-50 hidden overflow-hidden">
+            <div class="p-4 border-b border-slate-100 dark:border-slate-700/80 flex items-center justify-between">
+              <span class="font-extrabold text-xs text-slate-850 dark:text-white uppercase tracking-wider">Aduan Masuk Baru</span>
+              <span id="notificationCountLabel" class="text-[10px] bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 px-2 py-0.5 rounded-full font-black">0 Baru</span>
+            </div>
+            <div id="notificationList" class="max-h-64 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700">
+              <!-- Dinamis diisi JS -->
+            </div>
+          </div>
+        </div>
+
         <!-- Dark Mode Switch -->
         <button onclick="toggleDarkMode()" class="w-10 h-10 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-400 rounded-xl flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700 shadow-sm">
           <i class="fa-solid fa-moon dark:hidden"></i>
@@ -174,11 +193,12 @@
     </div>
   </header>
 
+  <!-- Mobile Navigation Drawer -->
   <div id="mobileMenu" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 hidden transition-all">
     <div class="bg-white dark:bg-slate-900 w-80 h-full p-6 flex flex-col shadow-2xl transition-transform duration-300 transform translate-x-0">
       <div class="flex items-center justify-between border-b pb-4 mb-6 border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-3">
-          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-9 h-9 object-contain">
+          <img src="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" alt="SILARAS Emblem" class="w-9 h-9 object-contain">
           <h1 class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400">SILARAS</h1>
         </div>
         <button onclick="toggleMobileMenu()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -294,7 +314,7 @@
 
               <!-- Quick Instruction Card -->
               <div class="p-3 bg-emerald-950/20 rounded-xl border border-emerald-900/40 text-[10px] text-emerald-300/90 flex gap-2.5 items-start">
-                <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Badge" class="w-5 h-5 object-contain mt-0.5 shrink-0">
+                <img src="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" alt="SILARAS Badge" class="w-5 h-5 object-contain mt-0.5 shrink-0">
                 <p><b>Catatan SILARAS:</b> Gunakan deteksi GPS handphone secara langsung saat berada di tempat kejadian konflik agar mempercepat tim penyelamat melacak lokasi.</p>
               </div>
             </div>
@@ -357,7 +377,7 @@
       <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700/50 shadow-premium space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+            <h3 class="text-lg font-bold text-slate-850 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-map-location-dot text-emerald-600"></i> Peta Sebaran Konflik Satwa Liar
             </h3>
             <p class="text-xs text-slate-400">Tampilan geografis koordinat aduan konflik secara real-time di seluruh wilayah Kalimantan Timur.</p>
@@ -454,7 +474,7 @@
       <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-[28px] border border-slate-150/80 dark:border-slate-700/60 shadow-premium space-y-6">
         
         <div class="text-center max-w-md mx-auto space-y-2 border-b border-slate-100 dark:border-slate-700 pb-4">
-          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-16 h-16 object-contain mx-auto mb-2 animate-pulse">
+          <img src="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" alt="SILARAS Emblem" class="w-16 h-16 object-contain mx-auto mb-2 animate-pulse">
           <h3 class="text-xl font-black text-slate-850 dark:text-white tracking-tight">Formulir Pengaduan Konflik Satwa</h3>
           <p class="text-xs text-slate-400 leading-relaxed">Silakan lengkapi formulir di bawah ini dengan valid guna mempermudah penanganan mitigasi satwa liar.</p>
         </div>
@@ -761,7 +781,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100/80 dark:border-slate-700/50 shadow-premium lg:col-span-2">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+            <h3 class="font-bold text-slate-850 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-chart-column text-emerald-600"></i> Distribusi Konflik Satwa
             </h3>
             <span class="text-xs text-slate-400">Seksi Wilayah BKSDA Kaltim</span>
@@ -773,7 +793,7 @@
 
         <div class="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100/80 dark:border-slate-700/50 shadow-premium">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+            <h3 class="font-bold text-slate-850 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-chart-pie text-emerald-600"></i> Rasio Penanganan
             </h3>
             <span class="text-xs text-slate-400">Status Tindakan</span>
@@ -787,7 +807,6 @@
 
     <!-- ==================== TAB 5: KELOLA ADUAN (ADMIN ONLY) ==================== -->
     <section id="tab-kelola" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
-      
       <div id="kelolaAduanContent" class="hidden space-y-4">
         
         <!-- HEADER KELOLA -->
@@ -886,8 +905,7 @@
       
       <div class="space-y-4">
         <div class="flex items-center gap-2 cursor-pointer mb-2" onclick="switchTab('beranda')">
-          <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Logo Footer" class="h-10 object-contain brightness-110">
-          <span class="text-white font-black tracking-widest text-sm uppercase">SILARAS</span>
+          <img src="ChatGPT Image Jul 1, 2026, 10_47_14 PM.png" alt="SILARAS Logo Footer" class="h-10 object-contain brightness-110">
         </div>
         <p class="leading-relaxed text-slate-500">Platform pelaporan terpadu mitigasi &amp; penyelamatan konflik satwa liar guna keharmonisan ekosistem alam Kalimantan Timur.</p>
       </div>
@@ -941,7 +959,7 @@
   <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 max-w-sm w-full p-6 rounded-[28px] shadow-2xl border dark:border-slate-700/50 space-y-6">
       <div class="text-center space-y-1">
-        <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Emblem" class="w-12 h-12 object-contain mx-auto mb-2">
+        <img src="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" alt="SILARAS Emblem" class="w-12 h-12 object-contain mx-auto mb-2">
         <h3 class="font-extrabold text-base text-slate-850 dark:text-white">Autentikasi Petugas</h3>
         <p class="text-[11px] text-slate-400">Hanya untuk Petugas dan Administrator Balai KSDA</p>
       </div>
@@ -979,7 +997,7 @@
   <!-- ==================== MODAL SUCCESS ADUAN (TICKET ID DISPLAY) ==================== -->
   <div id="successAduanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white dark:bg-slate-800 max-w-md w-full p-6 rounded-[28px] shadow-2xl border dark:border-slate-700/50 text-center space-y-5">
-      <img src="https://raw.githubusercontent.com/opickdigital/silaras-assets/main/7.png" alt="SILARAS Success" class="w-16 h-16 object-contain mx-auto animate-bounce">
+      <img src="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" alt="SILARAS Success" class="w-16 h-16 object-contain mx-auto animate-bounce">
       
       <div class="space-y-2">
         <h3 class="text-lg font-black text-slate-850 dark:text-white">Laporan Berhasil Terkirim!</h3>
@@ -1146,7 +1164,7 @@
       },
       {
         id: "TRK-2026-003",
-        tanggal: "2026-06-30 09:12",
+        tanggal: "2026-07-01 10:45",
         nama: "Diana Lestari",
         hp: "0852449911",
         satwa: "Buaya Muara (Crocodylus porosus)",
@@ -1172,6 +1190,15 @@
       loadThemeFromLocalStorage();
       initializeMap();
       fetchData();
+      
+      // Close notification dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        const area = document.getElementById('notificationArea');
+        const dropdown = document.getElementById('notificationDropdown');
+        if (area && !area.contains(event.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
     };
 
     function detectExecutionEnvironment() {
@@ -1188,7 +1215,6 @@
       const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
       
       if (isUrlValid) {
-        // Menggunakan fetch asinkron dengan header text/plain untuk melewati CORS Preflight OPTIONS block
         return fetch(GAS_WEB_APP_URL, {
           method: 'POST',
           mode: 'cors',
@@ -1492,11 +1518,6 @@
       return "Lainnya";
     }
 
-    function showLoading(show, text = "") {
-      // Dinonaktifkan total agar alur aplikasi instan dan bersih
-      console.log("Loading overlay bypassed:", show, text);
-    }
-
     function showToast(message, type = "success") {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
@@ -1538,10 +1559,85 @@
           renderConflictMap();
           renderTabelAduan();
           updateLandingQuickStats();
+          updateNotificationCenter();
         })
         .catch((error) => {
           showToast("Gagal mengambil data dari server: " + error, "error");
         });
+    }
+
+    // SISTEM NOTIFIKASI BARU (REAL-TIME ADUAN MASUK)
+    function toggleNotificationDropdown() {
+      const dropdown = document.getElementById('notificationDropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    function updateNotificationCenter() {
+      const incomingAduan = appState.aduanData.filter(item => item.status === 'Masuk');
+      const badge = document.getElementById('notificationBadge');
+      const countLabel = document.getElementById('notificationCountLabel');
+      const listContainer = document.getElementById('notificationList');
+
+      // Update Badge
+      if (incomingAduan.length > 0) {
+        badge.textContent = incomingAduan.length;
+        badge.classList.remove('hidden');
+        countLabel.textContent = `${incomingAduan.length} Baru`;
+      } else {
+        badge.classList.add('hidden');
+        countLabel.textContent = '0 Baru';
+      }
+
+      // Populate List
+      listContainer.innerHTML = '';
+      if (incomingAduan.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-6 text-center text-xs text-slate-400 dark:text-slate-500">
+            <i class="fa-solid fa-bell-slash text-2xl mb-2 block text-slate-300 dark:text-slate-600"></i>
+            Tidak ada notifikasi aduan baru.
+          </div>
+        `;
+        return;
+      }
+
+      incomingAduan.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = "p-3 hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-colors text-xs flex flex-col gap-1.5 cursor-pointer";
+        itemEl.innerHTML = `
+          <div class="flex items-center justify-between font-bold">
+            <span class="text-emerald-600 dark:text-emerald-400">${item.id}</span>
+            <span class="text-[9px] text-slate-400">${item.tanggal}</span>
+          </div>
+          <div>
+            <p class="font-extrabold text-slate-800 dark:text-slate-200">${item.satwa}</p>
+            <p class="text-[10px] text-slate-400">Pelapor: <span class="font-semibold">${item.nama}</span> (${item.kabupaten})</p>
+          </div>
+          <div class="flex gap-1.5 justify-end mt-1">
+            <button onclick="handleLacakDirect('${item.id}', event)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-lg text-[9px] font-bold text-slate-600 dark:text-slate-300">Lacak</button>
+            <button onclick="handleTindakLanjutDirect('${item.id}', event)" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-[9px] font-bold text-white shadow-sm">Tindak Lanjut</button>
+          </div>
+        `;
+        listContainer.appendChild(itemEl);
+      });
+    }
+
+    function handleLacakDirect(id, event) {
+      if (event) event.stopPropagation();
+      document.getElementById('inputLacakId').value = id;
+      switchTab('lacak');
+      performComplaintTracking();
+      document.getElementById('notificationDropdown').classList.add('hidden');
+    }
+
+    function handleTindakLanjutDirect(id, event) {
+      if (event) event.stopPropagation();
+      document.getElementById('notificationDropdown').classList.add('hidden');
+      if (!appState.user) {
+        showToast("Anda harus login sebagai Petugas terlebih dahulu!", "warning");
+        openLoginModal();
+      } else {
+        openActionModal(id);
+      }
     }
 
     function updateLandingQuickStats() {
@@ -1822,12 +1918,12 @@
         .then((response) => {
           const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
           if (!isUrlValid || appState.isMockMode) {
-            // Jalankan update lokal di preview jika integrasi GAS kosong/gagal
             appState.aduanData.unshift(payload);
             renderDashboard();
             renderConflictMap();
             renderTabelAduan();
             updateLandingQuickStats();
+            updateNotificationCenter();
           }
 
           document.getElementById('formAduan').reset();
@@ -2142,7 +2238,6 @@
         .then(() => {
           const isUrlValid = GAS_WEB_APP_URL && GAS_WEB_APP_URL.trim() !== "" && !GAS_WEB_APP_URL.startsWith("YOUR_");
           if (!isUrlValid || appState.isMockMode) {
-            // Update lokal simulasi
             const idx = appState.aduanData.findIndex(d => d.id === id);
             if (idx !== -1) {
               appState.aduanData[idx].status = status;
@@ -2153,6 +2248,7 @@
             renderConflictMap();
             renderTabelAduan();
             updateLandingQuickStats();
+            updateNotificationCenter();
           }
 
           closeActionModal();
