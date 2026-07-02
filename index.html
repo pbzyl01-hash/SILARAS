@@ -3,21 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- JUDUL APLIKASI DENGAN TEKS BESAR DAN METADATA -->
   <title>SILARAS – Sistem Informasi Laporan dan Respons Konflik Satwa</title>
   
-  <!-- Favicon SILARAS sesuai file yang diunggah -->
-  <link rel="icon" type="image/png" href="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" />
-  <link rel="shortcut icon" type="image/png" href="ChatGPT Image Jul 1, 2026, 10_50_29 PM.png" />
-
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <!-- Leaflet CSS -->
+  
+  <!-- Leaflet Peta Engine -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Chart.js -->
+  
+  <!-- Chart.js Analitik -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
@@ -27,26 +24,18 @@
         extend: {
           colors: {
             emerald: {
-              50: '#f2faf8',
-              100: '#e2f3f0',
-              200: '#c5e7df',
-              300: '#99d4c7',
-              400: '#68b8a8',
-              500: '#469c8c',
-              600: '#367e71',
-              700: '#2a6a64', // Warna utama SILARAS (Dark Forest Emerald)
+              700: '#2a6a64',
               800: '#25514d',
-              900: '#214441',
-              950: '#0e2625'
+              900: '#214441'
             }
           },
           animation: {
-            'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'glow-pulse': 'glowPulse 2s infinite alternate',
           },
           keyframes: {
-            pulseGlow: {
-              '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 4px rgba(245, 158, 11, 0.6))' },
-              '50%': { opacity: .8, filter: 'drop-shadow(0 0 16px rgba(245, 158, 11, 0.9))' }
+            glowPulse: {
+              '0%': { 'text-shadow': '0 0 4px rgba(52, 211, 153, 0.4)', transform: 'scale(1)' },
+              '100%': { 'text-shadow': '0 0 16px rgba(52, 211, 153, 0.9), 0 0 24px rgba(16, 185, 129, 0.6)', transform: 'scale(1.02)' }
             }
           }
         }
@@ -56,1172 +45,755 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    /* Mengatasi bentrok peta Leaflet */
-    .leaflet-container {
-      font-family: inherit;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .legend { background: white; padding: 10px; line-height: 18px; color: #333; border-radius: 8px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); }
+    .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.8; border-radius: 4px; }
+    .dark .legend { background: #1e293b; color: #f8fafc; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 flex flex-col min-h-screen">
 
-  <!-- URL WEB APP GOOGLE APPS SCRIPT (SINKRON DENGAN VERCEL) -->
+  <!-- URL GOOGLE APPS SCRIPT WEB APP -->
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz06FmuQVuI3h4b2b-IUURahH5CHkFs-ahyjoDcUMASOgY56BPAZ34Luj9JLd5zprAK/exec";
+    const GAS_WEB_APP_URL = ""; // Biarkan kosong jika dieksekusi langsung di dalam GAS via google.script.run
   </script>
 
-  <!-- HEADER -->
-  <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm">
+  <!-- NAVBAR UTAMA -->
+  <header class="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <!-- Logo SILARAS kiri atas -->
-      <a href="#" onclick="switchTab('formulir')" class="flex items-center gap-3">
-        <img src="ChatGPT Image Jul 1, 2026, 10_47_14 PM.png" alt="SILARAS Logo" class="h-14 w-auto object-contain hover:scale-105 transition-transform" onerror="this.src='https://placehold.co/180x60/2a6a64/ffffff?text=SILARAS'">
-      </a>
+      
+      <!-- JUDUL APLIKASI ANIMASI MENYALA & BERDENYUT -->
+      <div class="flex flex-col">
+        <h1 class="text-xl sm:text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-tight animate-glow-pulse cursor-pointer select-none" onclick="switchTab('formulir')">
+          <i class="fa-solid fa-shield-cat mr-2"></i>SILARAS
+        </h1>
+        <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400 dark:text-slate-500">BKSDA Kaltim</span>
+      </div>
 
-      <!-- Menu Navigasi Tengah & Kanan -->
-      <div class="flex items-center gap-4 sm:gap-6">
+      <!-- WIDGET REALTIME JAM & TANGGAL -->
+      <div class="hidden lg:flex flex-col items-end bg-slate-50 dark:bg-slate-800/50 px-4 py-1.5 rounded-xl border border-slate-100 dark:border-slate-700/60 font-mono text-xs">
+        <span class="text-slate-500 dark:text-slate-400 font-semibold" id="realtime-date">Memuat Hari...</span>
+        <span class="text-emerald-700 dark:text-emerald-400 font-bold" id="realtime-clock">00:00:00 WITA</span>
+      </div>
+
+      <!-- NAV BUTTONS & TOGGLE TERANG/GELAP -->
+      <div class="flex items-center gap-2 sm:gap-4">
         <nav class="hidden md:flex items-center gap-1">
-          <button id="nav-formulir" onclick="switchTab('formulir')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-emerald-700 bg-emerald-50">
-            <i class="fa-solid fa-file-pen mr-2"></i>Formulir Aduan
+          <button id="nav-formulir" onclick="switchTab('formulir')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-emerald-700 bg-emerald-50 dark:bg-emerald-950/50 dark:text-emerald-400">
+            <i class="fa-solid fa-file-pen mr-1.5"></i>Form Aduan
           </button>
-          <button id="nav-status" onclick="switchTab('status')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-emerald-700 hover:bg-slate-50">
-            <i class="fa-solid fa-magnifying-glass-location mr-2"></i>Pantau Status
+          <button id="nav-peta" onclick="switchTab('peta')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">
+            <i class="fa-solid fa-map-location-dot mr-1.5"></i>Peta Sebaran
           </button>
-          <button id="nav-petugas" onclick="switchTab('petugas')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-emerald-700 hover:bg-slate-50">
-            <i class="fa-solid fa-shield-cat mr-2"></i>Portal Petugas
+          <button id="nav-status" onclick="switchTab('status')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">
+            <i class="fa-solid fa-magnifying-glass mr-1.5"></i>Pantau Status
+          </button>
+          <button id="nav-petugas" onclick="switchTab('petugas')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">
+            <i class="fa-solid fa-user-shield mr-1.5"></i>Portal Petugas
           </button>
         </nav>
 
-        <!-- FITUR NOTIFIKASI ADMIN (POJOK KANAN ATAS) -->
-        <div class="relative" id="notification-wrapper">
-          <button onclick="toggleNotificationDropdown()" class="relative p-2.5 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-full transition-colors focus:outline-none" id="notification-bell">
-            <i class="fa-solid fa-bell text-xl"></i>
-            <span id="notif-badge" class="hidden absolute top-1.5 right-1.5 flex h-3.5 w-3.5">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border-2 border-white"></span>
-            </span>
-          </button>
+        <!-- Toggle Mode Terang/Gelap -->
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-emerald-700">
+          <i class="fa-solid fa-sun dark:hidden"></i>
+          <i class="fa-solid fa-moon hidden dark:block"></i>
+        </button>
 
-          <!-- Dropdown Notifikasi -->
-          <div id="notification-dropdown" class="hidden absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden">
-            <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-              <span class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                <i class="fa-solid fa-bell text-emerald-700"></i> Aduan Konflik Masuk
-              </span>
-              <span id="notif-count" class="text-xs font-bold text-white bg-red-500 px-2.5 py-0.5 rounded-full">0 Baru</span>
-            </div>
-            <div id="notif-list" class="max-h-80 overflow-y-auto custom-scrollbar divide-y divide-slate-100">
-              <div class="p-4 text-center text-slate-400 text-sm py-8">
-                Tidak ada aduan baru yang masuk.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tombol Mobile Nav Menu -->
-        <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-600 hover:text-emerald-700">
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-slate-600 dark:text-slate-300">
           <i class="fa-solid fa-bars text-xl"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION -->
-  <div id="mobile-nav" class="hidden md:hidden bg-white border-b border-slate-100 px-4 py-3 space-y-2">
-    <button onclick="switchTab('formulir'); toggleMobileNav();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-emerald-700 bg-emerald-50 block">
-      <i class="fa-solid fa-file-pen mr-2"></i>Formulir Aduan
-    </button>
-    <button onclick="switchTab('status'); toggleMobileNav();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 block">
-      <i class="fa-solid fa-magnifying-glass-location mr-2"></i>Pantau Status
-    </button>
-    <button onclick="switchTab('petugas'); toggleMobileNav();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 block">
-      <i class="fa-solid fa-shield-cat mr-2"></i>Portal Petugas
-    </button>
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div id="mobile-drawer" class="hidden md:hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm" onclick="toggleMobileMenu()">
+    <div class="w-64 bg-white dark:bg-slate-900 h-full p-5 space-y-4 shadow-2xl flex flex-col justify-between" onclick="event.stopPropagation()">
+      <div class="space-y-6">
+        <div class="font-extrabold text-lg text-emerald-700 dark:text-emerald-400">Menu Navigasi</div>
+        <div class="flex flex-col gap-2">
+          <button onclick="switchTab('formulir'); toggleMobileMenu();" class="text-left px-4 py-3 rounded-xl text-xs font-bold text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400"><i class="fa-solid fa-file-pen mr-2"></i>Form Aduan</button>
+          <button onclick="switchTab('peta'); toggleMobileMenu();" class="text-left px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"><i class="fa-solid fa-map-location-dot mr-2"></i>Peta Sebaran</button>
+          <button onclick="switchTab('status'); toggleMobileMenu();" class="text-left px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"><i class="fa-solid fa-magnifying-glass mr-2"></i>Pantau Status</button>
+          <button onclick="switchTab('petugas'); toggleMobileMenu();" class="text-left px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"><i class="fa-solid fa-user-shield mr-2"></i>Portal Petugas</button>
+        </div>
+      </div>
+      <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-[10px] font-mono text-center">
+        WITA Realtime Clock Widget
+      </div>
+    </div>
   </div>
 
-  <!-- MAIN WRAPPER -->
-  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+  <!-- CONTAINER STATISTIK UTAMA (DISEDIAKAN SEBELUMNYA) -->
+  <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800/80">
+      <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Sebaran</span>
+      <span class="block text-2xl font-black text-slate-900 dark:text-white" id="card-total">0</span>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800/80 border-l-4 border-amber-500">
+      <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Aduan Masuk</span>
+      <span class="block text-2xl font-black text-amber-500" id="card-masuk">0</span>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800/80 border-l-4 border-blue-500">
+      <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Dipersiapkan / Proses</span>
+      <span class="block text-2xl font-black text-blue-500" id="card-proses">0</span>
+    </div>
+    <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800/80 border-l-4 border-emerald-500">
+      <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Selesai Berhasil</span>
+      <span class="block text-2xl font-black text-emerald-500" id="card-selesai">0</span>
+    </div>
+  </div>
+
+  <!-- MAIN WRAPPER CONTENT -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
 
     <!-- TAB 1: FORMULIR ADUAN -->
-    <section id="tab-formulir" class="space-y-8">
-      <!-- Welcome Banner -->
-      <div class="bg-gradient-to-br from-emerald-800 to-emerald-950 rounded-2xl p-6 sm:p-10 text-white shadow-lg relative overflow-hidden">
-        <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-12 translate-y-12">
-          <i class="fa-solid fa-paw text-[200px]"></i>
-        </div>
-        <div class="max-w-2xl relative z-10 space-y-3">
-          <span class="bg-amber-500/90 text-slate-900 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider animate-pulse-glow">
-            Tanggap Cepat BKSDA Kaltim
-          </span>
-          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Portal Laporan Konflik Satwa Liar</h1>
-          <p class="text-emerald-100 text-sm sm:text-base">
-            Membantu penyelamatan satwa liar dan penanganan konflik demi terciptanya keharmonisan ekosistem lingkungan di Kalimantan Timur. Laporan Anda segera diteruskan ke Tim WRU (Wildlife Rescue Unit).
-          </p>
-        </div>
-      </div>
-
-      <!-- Formulir Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Form Utama (Kiri & Tengah) -->
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 space-y-6">
-          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 pb-4 border-b border-slate-100">
-            <i class="fa-solid fa-edit text-emerald-700"></i> Lengkapi Formulir Laporan
-          </h2>
-
-          <form id="form-laporan" onsubmit="handleFormSubmit(event)" class="space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Nama Lengkap Pelapor <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-user absolute left-3 top-3.5 text-slate-400"></i>
-                  <input type="text" id="pelapor_nama" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm" placeholder="Contoh: Budi Santoso">
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">No. HP / WhatsApp <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-phone absolute left-3 top-3.5 text-slate-400"></i>
-                  <!-- Input No HP berupa text agar karakter '0' di depan tetap utuh dan terkirim dengan benar -->
-                  <input type="text" id="pelapor_hp" required pattern="^0[0-9]{8,14}$" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm" placeholder="Contoh: 08123456789">
-                </div>
-                <p class="text-[11px] text-slate-400 mt-1">Harus diawali angka 0 (Format: 08xxxxxxxxx)</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Jenis Satwa Liar <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-dragon absolute left-3 top-3.5 text-slate-400"></i>
-                  <select id="satwa_jenis" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm appearance-none">
-                    <option value="" disabled selected>Pilih Jenis Satwa...</option>
-                    <option value="Buaya">Buaya (Crocodilus)</option>
-                    <option value="Orangutan">Orangutan (Pongo pygmaeus)</option>
-                    <option value="Ular / Reptil">Ular / Reptil Berbahaya</option>
-                    <option value="Monyet / Bekantan">Monyet / Bekantan</option>
-                    <option value="Beruang Madu">Beruang Madu</option>
-                    <option value="Macan Dahan">Macan Dahan</option>
-                    <option value="Gajah">Gajah</option>
-                    <option value="Burung / Unggas">Burung / Unggas Dilindungi</option>
-                    <option value="Lainnya">Lainnya (Tulis di kronologi)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Kabupaten / Kota Kejadian <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-map-location-dot absolute left-3 top-3.5 text-slate-400"></i>
-                  <select id="kabupaten_kota" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm appearance-none">
-                    <option value="" disabled selected>Pilih Kabupaten/Kota...</option>
-                    <option value="Samarinda">Samarinda</option>
-                    <option value="Balikpapan">Balikpapan</option>
-                    <option value="Kutai Kartanegara">Kutai Kartanegara</option>
-                    <option value="Kutai Timur">Kutai Timur</option>
-                    <option value="Kutai Barat">Kutai Barat</option>
-                    <option value="Bontang">Bontang</option>
-                    <option value="Paser">Paser</option>
-                    <option value="Penajam Paser Utara">Penajam Paser Utara</option>
-                    <option value="Berau">Berau</option>
-                    <option value="Mahakam Ulu">Mahakam Ulu</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Tingkat Ancaman <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-triangle-exclamation absolute left-3 top-3.5 text-slate-400"></i>
-                  <select id="ancaman_tingkat" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm appearance-none">
-                    <option value="" disabled selected>Pilih Tingkat Ancaman...</option>
-                    <option value="Tinggi (Membahayakan Jiwa)">Tinggi (Membahayakan Jiwa)</option>
-                    <option value="Sedang (Masuk Pemukiman/Kebun)">Sedang (Masuk Pemukiman/Kebun)</option>
-                    <option value="Rendah (Hanya Terlihat Melintas)">Rendah (Hanya Terlihat Melintas)</option>
-                    <option value="Kondisi Terluka / Terjerat">Kondisi Terluka / Terjerat</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Jumlah Satwa (Ekor) <span class="text-red-500">*</span></label>
-                <div class="relative">
-                  <i class="fa-solid fa-hashtag absolute left-3 top-3.5 text-slate-400"></i>
-                  <input type="number" id="satwa_jumlah" required min="1" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm" placeholder="Contoh: 1">
-                </div>
-              </div>
-            </div>
-
+    <section id="tab-formulir" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-5">
+        <h2 class="text-base font-extrabold pb-3 border-b border-slate-100 dark:border-slate-800"><i class="fa-solid fa-file-signature text-emerald-700 mr-2"></i>Buat Laporan Baru</h2>
+        <form id="form-laporan" onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Kronologi Kejadian & Deskripsi Singkat <span class="text-red-500">*</span></label>
-              <textarea id="deskripsi_aduan" required rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all text-sm placeholder-slate-400" placeholder="Jelaskan detail kronologi, kondisi satwa, dan lokasi sekitar..."></textarea>
+              <label class="block font-bold mb-1 text-slate-500">NAMA LENGKAP</label>
+              <input type="text" id="p_nama" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent focus:outline-none focus:border-emerald-700">
             </div>
-
-            <!-- Bagian Peta Interaktif & Input Lokasi -->
-            <div class="space-y-3">
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Peta Lokasi Kejadian (Geser Marker) <span class="text-red-500">*</span></label>
-              <div id="map-formulir" class="h-64 w-full rounded-xl border border-slate-200 z-10"></div>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Latitude</label>
-                  <input type="text" id="koordinat_lat" readonly class="w-full bg-slate-50 border border-slate-200 px-3 py-2 rounded-lg text-xs font-mono text-slate-500 focus:outline-none">
-                </div>
-                <div>
-                  <label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">Longitude</label>
-                  <input type="text" id="koordinat_lng" readonly class="w-full bg-slate-50 border border-slate-200 px-3 py-2 rounded-lg text-xs font-mono text-slate-500 focus:outline-none">
-                </div>
-              </div>
-            </div>
-
-            <!-- Upload File Bukti Foto/Video -->
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Lampiran Bukti Foto / Video (Bisa Pilih Banyak)</label>
-              <div class="border-2 border-dashed border-slate-200 hover:border-emerald-500 rounded-xl p-6 text-center cursor-pointer transition-colors relative" onclick="document.getElementById('bukti_media').click()">
-                <input type="file" id="bukti_media" multiple accept="image/*,video/*" class="hidden" onchange="previewMediaFiles(this)">
-                <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 mb-3 block" id="upload-icon"></i>
-                <span class="text-sm font-semibold text-slate-700 block" id="upload-text">Klik untuk pilih gambar atau video bukti lapangan</span>
-                <span class="text-xs text-slate-400 mt-1 block">Format didukung: JPG, PNG, GIF, MP4 (Maks. 3 file bersamaan)</span>
-              </div>
-              <div id="media-preview-container" class="grid grid-cols-3 gap-4 mt-4"></div>
+              <label class="block font-bold mb-1 text-slate-500">NO HP / WHATSAPP</label>
+              <input type="text" id="p_hp" required pattern="^0[0-9]{8,14}$" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent focus:outline-none focus:border-emerald-700" placeholder="08xxxxxxxx">
             </div>
-
-            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
-              <i class="fa-solid fa-paper-plane"></i> Kirim Laporan Pengaduan
-            </button>
-          </form>
-        </div>
-
-        <!-- Sidebar Panduan Penanganan Mandiri (Kanan) -->
-        <div class="space-y-6">
-          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 space-y-4">
-            <h3 class="font-bold text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
-              <i class="fa-solid fa-info-circle text-amber-500"></i> Panduan Tanggap Mandiri
-            </h3>
-            <ul class="space-y-4 text-sm">
-              <li class="flex gap-3">
-                <div class="h-6 w-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0">1</div>
-                <p class="text-slate-600"><strong class="text-slate-800">Menjauh & Amankan Diri:</strong> Hindari memprovokasi, mendekat, atau berinteraksi langsung dengan satwa liar yang stres.</p>
-              </li>
-              <li class="flex gap-3">
-                <div class="h-6 w-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0">2</div>
-                <p class="text-slate-600"><strong class="text-slate-800">Amankan Lingkungan:</strong> Masukkan hewan peliharaan, kunci pintu, dan batasi ruang gerak luar rumah.</p>
-              </li>
-              <li class="flex gap-3">
-                <div class="h-6 w-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0">3</div>
-                <p class="text-slate-600"><strong class="text-slate-800">Dokumentasikan:</strong> Ambil foto/video dari jarak aman untuk mempermudah identifikasi tim penyelamat.</p>
-              </li>
-            </ul>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold mb-1 text-slate-500">JENIS SATWA LIAR</label>
+              <select id="s_jenis" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:border-emerald-700">
+                <option value="Buaya">Buaya (Crocodilus)</option>
+                <option value="Orangutan">Orangutan (Pongo pygmaeus)</option>
+                <option value="Ular / Reptil">Ular / Reptil Berbahaya</option>
+                <option value="Beruang Madu">Beruang Madu</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-slate-500">KABUPATEN / KOTA KALTIN</label>
+              <select id="s_kota" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:border-emerald-700">
+                <option value="Samarinda">Samarinda</option>
+                <option value="Balikpapan">Balikpapan</option>
+                <option value="Kutai Kartanegara">Kutai Kartanegara</option>
+                <option value="Kutai Timur">Kutai Timur</option>
+                <option value="Berau">Berau</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold mb-1 text-slate-500">TINGKAT ANCAMAN</label>
+              <select id="s_ancaman" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:border-emerald-700">
+                <option value="Tinggi (Membahayakan Jiwa)">Tinggi (Membahayakan Jiwa)</option>
+                <option value="Sedang (Masuk Kebun/Pemukiman)">Sedang (Masuk Kebun/Pemukiman)</option>
+                <option value="Rendah (Hanya Terlihat Melintas)">Rendah (Hanya Terlihat Melintas)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-slate-500">JUMLAH SATWA (EKOR)</label>
+              <input type="number" id="s_jumlah" min="1" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent focus:outline-none focus:border-emerald-700">
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-slate-500">KRONOLOGI KEJADIAN</label>
+            <textarea id="s_deskripsi" required rows="3" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent focus:outline-none focus:border-emerald-700"></textarea>
+          </div>
+          
+          <!-- PETA PICKER MARKER FORMULIR -->
+          <div class="space-y-2">
+            <label class="block font-bold text-slate-500">GESER MARKER PADA PETA UNTUK KOORDINAT AKURAT</label>
+            <div id="map-form" class="h-44 w-full rounded-xl border border-slate-200 dark:border-slate-700 z-10"></div>
+            <div class="grid grid-cols-2 gap-2 font-mono text-[10px]">
+              <input type="text" id="c_lat" readonly class="bg-slate-50 dark:bg-slate-800 p-2 border border-slate-100 dark:border-slate-700 rounded-lg text-slate-400">
+              <input type="text" id="c_lng" readonly class="bg-slate-50 dark:bg-slate-800 p-2 border border-slate-100 dark:border-slate-700 rounded-lg text-slate-400">
+            </div>
           </div>
 
-          <!-- Panggilan Darurat -->
-          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-slate-800 space-y-3">
-            <h4 class="font-bold flex items-center gap-2 text-amber-900">
-              <i class="fa-solid fa-phone-volume text-xl text-amber-600"></i> Hotline Call Center
-            </h4>
-            <p class="text-xs text-amber-800">Jika mengalami kondisi darurat mengancam keselamatan jiwa, segera hubungi kontak darurat BKSDA Kaltim:</p>
-            <div class="flex items-center gap-3 bg-white p-3 rounded-xl border border-amber-100">
-              <i class="fa-solid fa-phone text-emerald-700 text-lg"></i>
-              <div>
-                <span class="block text-[10px] uppercase font-bold text-slate-500">Layanan Hotline 24 Jam</span>
-                <span class="font-extrabold text-slate-900 text-sm">0821 1333 8181</span>
-              </div>
+          <div>
+            <label class="block font-bold mb-1 text-slate-500">LAMPIRAN BUKTI BISA PILIH BANYAK (FOTO/VIDEO)</label>
+            <input type="file" id="p_bukti" multiple accept="image/*,video/*" onchange="processMediaFiles(this)" class="w-full text-[11px]">
+            <div id="preview-box" class="grid grid-cols-4 gap-2 mt-2"></div>
+          </div>
+
+          <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition-all shadow-sm">Kirim Laporan Pengaduan</button>
+        </form>
+      </div>
+      <div class="bg-gradient-to-br from-emerald-800 to-emerald-950 p-6 rounded-2xl text-white space-y-4 shadow-md h-fit text-xs">
+        <h3 class="font-extrabold text-sm"><i class="fa-solid fa-bullhorn mr-2 text-amber-400"></i>Pemberitahuan Sistem</h3>
+        <p class="leading-relaxed text-emerald-100">Laporan yang masuk akan otomatis dipilah ke dalam subfolder khusus di Google Drive berdasarkan Nomor Tiket Aduan.</p>
+        <div class="p-3 bg-white/10 border border-white/10 rounded-xl space-y-1">
+          <span class="block text-[10px] uppercase text-emerald-300 font-bold">Hotline Rescue BKSDA</span>
+          <span class="text-sm font-black">0821 1333 8181</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB LENGKAP: MENU PETA SEBARAN REALTIME & GRAFIK DISTRIBUSI -->
+    <section id="tab-peta" class="hidden space-y-6">
+      <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Peta Sebaran Konflik Satwa Liar Realtime</h2>
+            <p class="text-xs text-slate-400">Gunakan opsi kontrol di kanan atas peta untuk beralih ke Mode Peta Satelit.</p>
+          </div>
+          <!-- Selektor Layer Visual Jalan vs Satelit -->
+          <div class="flex gap-2 text-xs">
+            <button onclick="setMapBaseLayer('streets')" id="btn-layer-streets" class="px-3 py-1.5 font-bold rounded-lg bg-emerald-700 text-white shadow-sm">Peta Standar</button>
+            <button onclick="setMapBaseLayer('satellite')" id="btn-layer-sat" class="px-3 py-1.5 font-bold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Peta Satelit</button>
+          </div>
+        </div>
+
+        <!-- Wadah Viewport Peta Realtime Sebaran -->
+        <div id="map-distribution" class="h-72 sm:h-96 md:h-[450px] w-full rounded-2xl border border-slate-200 dark:border-slate-800 z-10 shadow-inner"></div>
+      </div>
+
+      <!-- GRAFIK DISTRIBUSI KONFLIK SATWA -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-3">
+          <h3 class="text-sm font-extrabold text-slate-800 dark:text-white"><i class="fa-solid fa-chart-bar mr-2 text-emerald-600"></i>Grafik Distribusi Jenis Satwa Terlaporkan</h3>
+          <div class="h-64 relative">
+            <canvas id="chart-satwa-distribution"></canvas>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-3 flex flex-col justify-between">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800 dark:text-white mb-2"><i class="fa-solid fa-list-ol mr-2 text-blue-500"></i>Rangkuman Kasus</h3>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs" id="summary-list-satwa">
+              <!-- Diisi otomatis -->
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- TAB 2: PANTAU STATUS ADUAN -->
-    <section id="tab-status" class="hidden space-y-6">
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Pelacakan Status Pengaduan</h2>
-            <p class="text-xs text-slate-500">Cari dan pantau respons serta tindak lanjut dari petugas lapangan</p>
-          </div>
-          <!-- Bar Pencarian Tiket -->
-          <div class="relative w-full sm:w-80">
-            <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400"></i>
-            <input type="text" id="status-search-input" onkeyup="searchAduan()" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 text-sm" placeholder="Masukkan ID Tiket atau Nama...">
-          </div>
-        </div>
-
-        <!-- Daftar Aduan Grid -->
-        <div id="status-aduan-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Dinamis diisi dari readData() -->
-        </div>
+    <!-- TAB 3: PANTAU STATUS ADUAN -->
+    <section id="tab-status" class="hidden space-y-4">
+      <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Daftar Pelacakan Status Pengaduan Publik</span>
+        <input type="text" id="search-box" onkeyup="filterStatusCards()" class="text-xs px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-transparent" placeholder="Cari ID Tiket / Satwa...">
+      </div>
+      <div id="status-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Diisi asinkronus via readData -->
       </div>
     </section>
 
-    <!-- TAB 3: PORTAL PETUGAS -->
-    <section id="tab-petugas" class="hidden space-y-6">
-      <!-- PORTAL PETUGAS: LOGIN STATE -->
-      <div id="petugas-login-container" class="max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-slate-100 p-8 space-y-6 mt-12">
-        <div class="text-center space-y-2">
-          <i class="fa-solid fa-lock text-4xl text-emerald-700"></i>
-          <h2 class="text-xl font-bold text-slate-900">Portal Keamanan Petugas</h2>
-          <p class="text-xs text-slate-500">Silakan masuk menggunakan kredensial resmi BKSDA</p>
-        </div>
-
-        <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Username</label>
-            <input type="text" id="login_username" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 text-sm" placeholder="Masukkan username">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
-            <input type="password" id="login_password" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 text-sm" placeholder="Masukkan password">
-          </div>
-          <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all text-sm">
-            Masuk Sekarang
-          </button>
+    <!-- TAB 4: PORTAL PETUGAS -->
+    <section id="tab-petugas" class="space-y-4 hidden">
+      <div id="login-panel" class="max-w-sm mx-auto bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-xl space-y-4 mt-8">
+        <h2 class="text-center font-black text-sm uppercase tracking-widest text-slate-700 dark:text-slate-300">Autentikasi Petugas</h2>
+        <form onsubmit="handleLogin(event)" class="space-y-3 text-xs">
+          <input type="text" id="u_name" required class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-transparent" placeholder="Username">
+          <input type="password" id="u_pass" required class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-transparent" placeholder="Password">
+          <button type="submit" class="w-full bg-emerald-700 text-white py-2 rounded-lg font-bold">Login Portal</button>
         </form>
       </div>
 
-      <!-- PORTAL PETUGAS: DASHBOARD STATE (TERKUNCI) -->
-      <div id="petugas-dashboard-container" class="hidden space-y-6">
-        <!-- Dashboard Top Stats -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <div class="h-12 w-12 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg font-bold">
-              <i class="fa-solid fa-user-shield"></i>
-            </div>
-            <div>
-              <h3 class="font-bold text-slate-900" id="admin-name">Administrator BKSDA</h3>
-              <p class="text-xs text-slate-500">Sistem Laporan & Respons Konflik Satwa Liar</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="exportToExcel()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-lg text-xs flex items-center gap-2 transition-all">
-              <i class="fa-solid fa-file-excel text-sm"></i> Ekspor CSV
-            </button>
-            <button onclick="handleLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-4 py-2.5 rounded-lg text-xs flex items-center gap-2 transition-all">
-              <i class="fa-solid fa-right-from-bracket"></i> Keluar
-            </button>
-          </div>
+      <div id="dashboard-panel" class="hidden space-y-4">
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl flex justify-between items-center border border-slate-100 dark:border-slate-800 text-xs">
+          <div>Logged in as: <strong id="user-display" class="text-emerald-700">Petugas Admin</strong></div>
+          <button onclick="handleLogout()" class="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold">Logout</button>
         </div>
-
-        <!-- Dashboard Ringkasan Angka -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-2">
-            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Total Aduan</span>
-            <span class="block text-2xl font-extrabold text-slate-900" id="stat-total">0</span>
-          </div>
-          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-2 border-l-4 border-amber-500">
-            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Baru / Masuk</span>
-            <span class="block text-2xl font-extrabold text-amber-600" id="stat-masuk">0</span>
-          </div>
-          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-2 border-l-4 border-blue-500">
-            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Proses Penanganan</span>
-            <span class="block text-2xl font-extrabold text-blue-600" id="stat-proses">0</span>
-          </div>
-          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-2 border-l-4 border-emerald-500">
-            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wide">Selesai / Damai</span>
-            <span class="block text-2xl font-extrabold text-emerald-600" id="stat-selesai">0</span>
-          </div>
-        </div>
-
-        <!-- Tabel Monitoring Admin -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 space-y-4">
-          <h3 class="font-bold text-slate-900">Seluruh Laporan Masuk</h3>
-          <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-left text-sm border-collapse">
-              <thead>
-                <tr class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-100">
-                  <th class="py-3 px-4">No. Tiket</th>
-                  <th class="py-3 px-4">Tanggal Masuk</th>
-                  <th class="py-3 px-4">Identitas Pelapor</th>
-                  <th class="py-3 px-4">Satwa & Lokasi</th>
-                  <th class="py-3 px-4">Ancaman & Qty</th>
-                  <th class="py-3 px-4">Status</th>
-                  <th class="py-3 px-4 text-center">Tindakan</th>
-                </tr>
-              </thead>
-              <tbody id="petugas-table-body" class="divide-y divide-slate-100 text-slate-700">
-                <!-- Dinamis diisi dari readData() -->
-              </tbody>
-            </table>
-          </div>
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 overflow-x-auto custom-scrollbar">
+          <!-- TABLE TO MOBILE HYBRID VIEW -->
+          <table class="w-full text-left text-xs min-w-[700px]">
+            <thead>
+              <tr class="bg-slate-50 dark:bg-slate-800 text-slate-500 font-bold border-b border-slate-100 dark:border-slate-700">
+                <th class="p-3">ID TIKET</th>
+                <th class="p-3">TANGGAL WITA</th>
+                <th class="p-3">PELAPOR & HP</th>
+                <th class="p-3">SATWA & LOKASI</th>
+                <th class="p-3">STATUS</th>
+                <th class="p-3 text-center">RESPONS</th>
+              </tr>
+            </thead>
+            <tbody id="table-body" class="divide-y divide-slate-50 dark:divide-slate-800"></tbody>
+          </table>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- MODAL TINDAK LANJUT PETUGAS -->
-  <div id="action-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
-      <div class="bg-emerald-700 text-white p-5 flex justify-between items-center">
-        <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-edit"></i> Tindak Lanjut Aduan</h3>
-        <button onclick="closeActionModal()" class="text-white/80 hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
+  <!-- MODAL RESPONS TINDAK LANJUT PETUGAS -->
+  <div id="modal-respons" class="hidden fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden text-xs">
+      <div class="bg-emerald-700 text-white p-4 font-bold flex justify-between items-center">
+        <span>Tindak Lanjut Laporan Lapangan</span>
+        <button onclick="closeResponsModal()"><i class="fa-solid fa-times text-lg"></i></button>
       </div>
-      <form id="form-action" onsubmit="handleActionSubmit(event)" class="p-6 space-y-4">
-        <input type="hidden" id="action-ticket-id">
+      <form onsubmit="handleResponsSubmit(event)" class="p-5 space-y-4">
+        <input type="hidden" id="m_id">
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">Tiket Aduan</label>
-          <input type="text" id="action-ticket-display" readonly class="w-full bg-slate-50 border border-slate-200 px-3 py-2 rounded-lg text-xs font-mono font-bold text-slate-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">Ubah Status Laporan</label>
-          <select id="action-status" required class="w-full px-3 py-2.5 rounded-lg border border-slate-200 bg-white text-sm">
+          <label class="block font-bold text-slate-500 mb-1">UBAH STATUS RESPON</label>
+          <select id="m_status" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
             <option value="Proses">Dalam Proses Penanganan Lapangan</option>
-            <option value="Selesai">Penanganan Selesai (Selesai/Damai)</option>
+            <option value="Selesai">Penanganan Selesai Berhasil (Damai)</option>
           </select>
         </div>
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">Tanggapan & Catatan Lapangan</label>
-          <textarea id="action-tanggapan" required rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm" placeholder="Tuliskan keterangan detail hasil rescue satwa di lapangan..."></textarea>
+          <label class="block font-bold text-slate-500 mb-1">TANGGAPAN & CATATAN</label>
+          <textarea id="m_tanggapan" required rows="3" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-transparent"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">Bukti Penanganan Lapangan (Foto/Video)</label>
-          <input type="file" id="action-media" multiple accept="image/*,video/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100" onchange="previewActionFiles(this)">
-          <div id="action-preview-container" class="grid grid-cols-4 gap-2 mt-2"></div>
+          <label class="block font-bold text-slate-500 mb-1">BUKTI RESCUE LAPANGAN</label>
+          <input type="file" id="m_bukti" multiple accept="image/*,video/*" onchange="processActionFiles(this)" class="w-full text-[11px]">
+          <div id="m-preview-box" class="grid grid-cols-4 gap-2 mt-2"></div>
         </div>
-        <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeActionModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-          <button type="submit" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800">Simpan Respons</button>
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <button type="button" onclick="closeResponsModal()" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg font-bold">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-lg font-bold shadow-sm">Simpan Tanggapan</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- TOAST ALERT SYSTEM -->
-  <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl z-50 flex items-center gap-2 transform transition-all duration-300">
-    <span id="toast-icon"></span>
-    <span id="toast-msg">Pesan Pemberitahuan</span>
+  <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-2xl z-50 transform transition-all duration-300 bg-slate-900">
+    Pesan Sistem Laporan
   </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-900 text-slate-400 py-12 mt-12 border-t border-slate-800 text-xs sm:text-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="space-y-4">
-        <h4 class="text-white font-bold text-base flex items-center gap-2">
-          <i class="fa-solid fa-circle-nodes text-emerald-500"></i> SILARAS BKSDA Kaltim
-        </h4>
-        <p class="leading-relaxed">
-          Sistem Informasi Laporan dan Respons Konflik Satwa Liar berbasis digital, mengamankan ruang hidup masyarakat dan kebebasan habitat liar satwa.
-        </p>
-      </div>
-      <div class="space-y-4">
-        <h4 class="text-white font-bold text-base">Alamat & Kantor Operasional</h4>
-        <p class="leading-relaxed flex items-start gap-2">
-          <i class="fa-solid fa-map-marker-alt text-emerald-500 shrink-0 mt-1"></i>
-          <span>Jl. Teuku Umar RT. 34 Kelurahan Karang Asam Ilir Kecamatan Sungai Kunjang Samarinda</span>
-        </p>
-      </div>
-      <div class="space-y-4">
-        <h4 class="text-white font-bold text-base">Kontak Pengaduan BKSDA</h4>
-        <ul class="space-y-2">
-          <li class="flex items-center gap-2">
-            <i class="fa-solid fa-phone text-emerald-500"></i>
-            <span>0821 1333 8181</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <i class="fa-solid fa-envelope text-emerald-500"></i>
-            <span>bksda.kaltim@kehutanan.go.id</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-800 text-center">
-      <p>&copy; 2026 SILARAS – Balai Konservasi Sumber Daya Alam (BKSDA) Kalimantan Timur. All Rights Reserved.</p>
-    </div>
+  <!-- LAYANAN FOOTER -->
+  <footer class="bg-slate-950 text-slate-500 py-6 text-center text-[11px] border-t border-slate-900">
+    <p>&copy; 2026 SILARAS – Balai Konservasi Sumber Daya Alam (BKSDA) Kalimantan Timur. Realtime Location Sync Engine.</p>
   </footer>
 
-  <!-- SCRIPT LOGIKA JAVASCRIPT UTAMA -->
+  <!-- SCRIPT LOGIKA CORE FRONTEND -->
   <script>
-    // State Aplikasi Global
-    const appState = {
-      currentTab: 'formulir',
-      aduanData: [],
-      currentUser: null,
-      selectedFormCoords: [0.5015, 117.1265], // Koordinat awal Samarinda
-      mapForm: null,
-      mapFormMarker: null,
-      uploadedFilesBase64: [],
-      actionFilesBase64: []
+    let globalData = [];
+    let uploadedBase64 = [];
+    let actionBase64 = [];
+    let formMap, formMarker, distMap;
+    let distMarkerLayer = L.layerGroup();
+    let chartInstance = null;
+    let currentMapStyle = 'streets';
+
+    // Provider Tautan Peta Standar vs Satelit Antariksa
+    const mapTiles = {
+      streets: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'OSM' }),
+      satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Esri Satellite' })
     };
 
-    // Saat seluruh DOM selesai dimuat
     window.onload = function() {
-      // Inisialisasi Peta
-      initLeafletMap();
+      initRealtimeClock();
+      initAppMaps();
+      syncDataWithBackend();
       
-      // Sinkronisasi Ambil Data Pertama
-      fetchDataFromBackend();
-
-      // Autoload Session dari Storage
-      const storedUser = localStorage.getItem('silaras_user');
-      if (storedUser) {
-        appState.currentUser = JSON.parse(storedUser);
-        document.getElementById('admin-name').innerText = appState.currentUser.fullName;
-        document.getElementById('petugas-login-container').classList.add('hidden');
-        document.getElementById('petugas-dashboard-container').classList.remove('hidden');
+      if(localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
       }
-
-      // Tutup Dropdown Notifikasi saat klik di luar
-      document.addEventListener('click', function(e) {
-        const wrapper = document.getElementById('notification-wrapper');
-        if (wrapper && !wrapper.contains(e.target)) {
-          document.getElementById('notification-dropdown').classList.add('hidden');
-        }
-      });
     };
 
-    // Handler Fungsi Peta
-    function initLeafletMap() {
-      appState.mapForm = L.map('map-formulir').setView(appState.selectedFormCoords, 11);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
-      }).addTo(appState.mapForm);
-
-      appState.mapFormMarker = L.marker(appState.selectedFormCoords, { draggable: true }).addTo(appState.mapForm);
+    // WIDGET HARI, TANGGAL, DAN JAM REALTIME (INDONESIA / WITA)
+    function initRealtimeClock() {
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
       
-      updateCoordinateInputs(appState.selectedFormCoords[0], appState.selectedFormCoords[1]);
+      setInterval(() => {
+        const d = new Date();
+        const labelHari = days[d.getDay()];
+        const labelTgl = String(d.getDate()).padStart(2, '0');
+        const labelBln = months[d.getMonth()];
+        const labelThn = d.getFullYear();
+        
+        const jam = String(d.getHours()).padStart(2, '0');
+        const mnt = String(d.getMinutes()).padStart(2, '0');
+        const dtk = String(d.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('realtime-date').innerText = `${labelHari}, ${labelTgl} ${labelBln} ${labelThn}`;
+        document.getElementById('realtime-clock').innerText = `${jam}:${mnt}:${dtk} WITA`;
+      }, 1000);
+    }
 
-      appState.mapFormMarker.on('dragend', function (e) {
-        const pos = e.target.getLatLng();
-        updateCoordinateInputs(pos.lat, pos.lng);
+    // TOGGLE MODE TERANG / GELAP
+    function toggleDarkMode() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-drawer').classList.toggle('hidden');
+    }
+
+    // INISIALISASI DUA PETA (PICKER LOKASI & PETA SEBARAN REALTIME)
+    function initAppMaps() {
+      const centerKaltim = [-0.5015, 117.1265]; // Koordinat Pusat Samarinda
+      
+      // Peta Picker Form
+      formMap = L.map('map-form').setView(centerKaltim, 10);
+      mapTiles.streets.addTo(formMap);
+      formMarker = L.marker(centerKaltim, { draggable: true }).addTo(formMap);
+      updateCoordinatesFields(centerKaltim[0], centerKaltim[1]);
+      
+      formMarker.on('dragend', function(e) {
+        let pos = e.target.getLatLng();
+        updateCoordinatesFields(pos.lat, pos.lng);
       });
+
+      // Peta Sebaran Konflik Realtime
+      distMap = L.map('map-distribution').setView(centerKaltim, 7);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(distMap);
+      distMarkerLayer.addTo(distMap);
+
+      // Tambahkan Legenda ke Peta Sebaran Realtime
+      addMapLegend();
     }
 
-    function updateCoordinateInputs(lat, lng) {
-      document.getElementById('koordinat_lat').value = Number(lat).toFixed(6);
-      document.getElementById('koordinat_lng').value = Number(lng).toFixed(6);
+    function updateCoordinatesFields(lat, lng) {
+      document.getElementById('c_lat').value = Number(lat).toFixed(6);
+      document.getElementById('c_lng').value = Number(lng).toFixed(6);
     }
 
-    // Navigasi Tab
+    // FITUR MENU PETA SEBARAN: GANTI MODE SATELIT REALTIME
+    function setMapBaseLayer(style) {
+      currentMapStyle = style;
+      if(style === 'satellite') {
+        distMap.removeLayer(mapTiles.streets);
+        mapTiles.satellite.addTo(distMap);
+        document.getElementById('btn-layer-sat').className = "px-3 py-1.5 font-bold rounded-lg bg-emerald-700 text-white shadow-sm";
+        document.getElementById('btn-layer-streets').className = "px-3 py-1.5 font-bold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300";
+      } else {
+        distMap.removeLayer(mapTiles.satellite);
+        mapTiles.streets.addTo(distMap);
+        document.getElementById('btn-layer-streets').className = "px-3 py-1.5 font-bold rounded-lg bg-emerald-700 text-white shadow-sm";
+        document.getElementById('btn-layer-sat').className = "px-3 py-1.5 font-bold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300";
+      }
+    }
+
+    // PENAMBAHAN LEGENDA PETA RESMI
+    function addMapLegend() {
+      let legend = L.control({position: 'bottomright'});
+      legend.onAdd = function () {
+        let div = L.DomUtil.create('div', 'legend');
+        div.innerHTML += '<h4 class="font-bold text-[11px] mb-1">Status Aduan</h4>';
+        div.innerHTML += '<i style="background: #f59e0b"></i> Masuk<br>';
+        div.innerHTML += '<i style="background: #3b82f6"></i> Proses<br>';
+        div.innerHTML += '<i style="background: #10b981"></i> Selesai<br>';
+        return div;
+      };
+      legend.addTo(distMap);
+    }
+
+    // NAVIGASI SWITCH TAB RESPONSIF
     function switchTab(tabId) {
-      appState.currentTab = tabId;
+      const tabs = ['formulir', 'peta', 'status', 'petugas'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800";
+      });
       
-      const tabFormulir = document.getElementById('tab-formulir');
-      const tabStatus = document.getElementById('tab-status');
-      const tabPetugas = document.getElementById('tab-petugas');
-      
-      const navFormulir = document.getElementById('nav-formulir');
-      const navStatus = document.getElementById('nav-status');
-      const navPetugas = document.getElementById('nav-petugas');
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabId}`).className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-emerald-700 bg-emerald-50 dark:bg-emerald-950/50 dark:text-emerald-400";
 
-      // Sembunyikan semua tab
-      tabFormulir.classList.add('hidden');
-      tabStatus.classList.add('hidden');
-      tabPetugas.classList.add('hidden');
+      if(tabId === 'formulir') setTimeout(() => formMap.invalidateSize(), 200);
+      if(tabId === 'peta') {
+        setTimeout(() => {
+          distMap.invalidateSize();
+          renderMarkersOnDistributionMap();
+          renderDistributionCharts();
+        }, 200);
+      }
+    }
 
-      // Hapus kelas aktif navigasi
-      const navButtons = [navFormulir, navStatus, navPetugas];
-      navButtons.forEach(btn => {
-        btn.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-emerald-700 hover:bg-slate-50";
+    // KOMUNIKASI ASINKRONUS MENGGUNAKAN GOOGLE SCRIPT RUN UTAMA (READ)
+    function syncDataWithBackend() {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            globalData = res;
+            updateDashboardCounters();
+            renderStatusCards();
+            renderPetugasTable();
+            renderMarkersOnDistributionMap();
+          })
+          .withFailureHandler(function(err) {
+            showToast("Koneksi backend gagal: " + err.message, "error");
+          })
+          .readData();
+      }
+    }
+
+    // KONTROL COUNTER UTAMA
+    function updateDashboardCounters() {
+      document.getElementById('card-total').innerText = globalData.length;
+      document.getElementById('card-masuk').innerText = globalData.filter(x => x.status === 'Masuk').length;
+      document.getElementById('card-proses').innerText = globalData.filter(x => x.status === 'Proses').length;
+      document.getElementById('card-selesai').innerText = globalData.filter(x => x.status === 'Selesai').length;
+    }
+
+    // PLOT PENYEBARAN REALTIME DI ATAS PETA
+    function renderMarkersOnDistributionMap() {
+      distMarkerLayer.clearLayers();
+      globalData.forEach(item => {
+        if (!item.lat || !item.lng) return;
+        
+        let color = '#f59e0b';
+        if(item.status === 'Proses') color = '#3b82f6';
+        if(item.status === 'Selesai') color = '#10b981';
+
+        let markerHtml = `<div style="background-color: ${color}; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>`;
+        let customIcon = L.divIcon({ html: markerHtml, className: 'custom-div-icon', iconSize: [12, 12] });
+
+        let popupContent = `
+          <div class="text-xs p-1 font-sans">
+            <strong class="text-emerald-800 block">${item.id} [${item.status}]</strong>
+            <span class="block font-bold">${item.satwa} (${item.jumlah} Ekor)</span>
+            <span class="text-[10px] text-slate-400 block">${item.kabupaten}</span>
+          </div>
+        `;
+        L.marker([item.lat, item.lng], { icon: customIcon }).bindPopup(popupContent).addTo(distMarkerLayer);
+      });
+    }
+
+    // GRAFIK DISTRIBUSI SEBARAN KONFLIK (CHART.JS)
+    function renderDistributionCharts() {
+      let counts = {};
+      globalData.forEach(x => { counts[x.satwa] = (counts[x.satwa] || 0) + 1; });
+
+      const labels = Object.keys(counts);
+      const values = Object.values(counts);
+
+      // Render Rangkuman List Samping
+      const listContainer = document.getElementById('summary-list-satwa');
+      listContainer.innerHTML = '';
+      labels.forEach((l, idx) => {
+        listContainer.innerHTML += `
+          <div class="flex justify-between py-2 items-center">
+            <span class="font-semibold text-slate-700 dark:text-slate-300">${l}</span>
+            <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded font-bold">${values[idx]} Kasus</span>
+          </div>
+        `;
       });
 
-      // Tampilkan tab terpilih & aktifkan kelasnya
-      if (tabId === 'formulir') {
-        tabFormulir.classList.remove('hidden');
-        navFormulir.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-emerald-700 bg-emerald-50";
-        // Recalculate peta agar Leaflet dimuat kembali dengan ukuran sempurna
-        setTimeout(() => appState.mapForm.invalidateSize(), 200);
-      } else if (tabId === 'status') {
-        tabStatus.classList.remove('hidden');
-        navStatus.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-emerald-700 bg-emerald-50";
-      } else if (tabId === 'petugas') {
-        tabPetugas.classList.remove('hidden');
-        navPetugas.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-emerald-700 bg-emerald-50";
-      }
-    }
-
-    function toggleMobileNav() {
-      const mobileNav = document.getElementById('mobile-nav');
-      mobileNav.classList.toggle('hidden');
-    }
-
-    // FORMAT TANGGAL INDONESIA YANG INDAH (Sesuai Gambar image_18b318)
-    function formatIndonesianDate(dateStr) {
-      if (!dateStr) return "-";
-      try {
-        const cleaned = dateStr.toString().replace(' ', 'T');
-        const d = new Date(cleaned);
-        if (isNaN(d.getTime())) return dateStr;
-        
-        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        
-        const dayName = days[d.getDay()];
-        const date = String(d.getDate()).padStart(2, '0');
-        const monthName = months[d.getMonth()];
-        const year = d.getFullYear();
-        const hours = String(d.getHours()).padStart(2, '0');
-        const minutes = String(d.getMinutes()).padStart(2, '0');
-        
-        return `${dayName}, ${date} ${monthName} ${year} - ${hours}:${minutes} WITA`;
-      } catch (e) {
-        return dateStr;
-      }
-    }
-
-    // Sinkronisasi Membaca Data dari Backend
-    async function fetchDataFromBackend() {
-      try {
-        const response = await callBackend("read", {});
-        if (response && response.success) {
-          appState.aduanData = response.data;
-          renderStatusAduan();
-          renderPetugasTable();
-          updateDashboardStats();
-          renderNotificationSystem();
-        } else {
-          showToast("Gagal menyinkronisasikan data backend.", "error");
+      if (chartInstance) chartInstance.destroy();
+      
+      const ctx = document.getElementById('chart-satwa-distribution').getContext('2d');
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Jumlah Insiden Laporan',
+            data: values,
+            backgroundColor: 'rgba(42, 106, 100, 0.8)',
+            borderColor: 'rgba(42, 106, 100, 1)',
+            borderWidth: 1,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
-      } catch (error) {
-        console.error("Gagal mengambil data:", error);
-      }
+      });
     }
 
-    // Jembatan Asinkron Vercel ke Google Apps Script Bebas CORS
-    async function callBackend(action, payload) {
-      if (!GAS_WEB_APP_URL) {
-        // Mode Demo/Mock offline jika URL web app tidak dideklarasikan
-        console.warn("Menggunakan Mock Mode karena GAS_WEB_APP_URL belum dikonfigurasi.");
-        return generateMockResponse(action, payload);
-      }
-
-      try {
-        // Pengiriman payload bertipe text/plain menghindari preflight CORS block oleh server Google
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: "POST",
-          mode: "cors",
-          headers: {},
-          body: JSON.stringify({ action: action, ...payload })
-        });
-        
-        return await response.json();
-      } catch (err) {
-        console.error("Fetch API error:", err);
-        return { success: false, error: err.toString() };
-      }
-    }
-
-    // Pembantu Konversi File Media ke Base64 secara Asinkron
-    function readFileAsBase64(file) {
+    // ASINKRONUS ASISTEN INPUT MULTIPLE FILE TO BASE64
+    function convertFileToBase64(file) {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = e => reject(e);
+        r.readAsDataURL(file);
       });
     }
 
-    // Preview File Unggahan Pelapor
-    async function previewMediaFiles(input) {
-      const container = document.getElementById('media-preview-container');
-      container.innerHTML = '';
-      appState.uploadedFilesBase64 = [];
-      
-      const files = input.files;
-      if (files.length > 3) {
-        showToast("Maksimal lampiran adalah 3 file.", "error");
-        input.value = '';
-        return;
-      }
-
-      document.getElementById('upload-text').innerText = `${files.length} file dipilih`;
-
-      for (let file of files) {
-        try {
-          const base64 = await readFileAsBase64(file);
-          appState.uploadedFilesBase64.push(base64);
-
-          const div = document.createElement('div');
-          div.className = "relative rounded-lg overflow-hidden border border-slate-200 h-20 bg-slate-50 flex items-center justify-center";
-          
-          if (file.type.startsWith('image/')) {
-            div.innerHTML = `<img src="${base64}" class="w-full h-full object-cover">`;
-          } else {
-            div.innerHTML = `<i class="fa-solid fa-video text-2xl text-slate-400"></i>`;
-          }
-          container.appendChild(div);
-        } catch (e) {
-          console.error("Gagal memuat preview:", e);
-        }
+    async function processMediaFiles(input) {
+      const box = document.getElementById('preview-box');
+      box.innerHTML = ''; uploadedBase64 = [];
+      for (let file of input.files) {
+        let b64 = await convertFileToBase64(file);
+        uploadedBase64.push(b64);
+        box.innerHTML += `<div class="h-12 border rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden"><img src="${b64}" class="object-cover w-full h-full"></div>`;
       }
     }
 
-    // Kirim Laporan Baru
-    async function handleFormSubmit(event) {
-      event.preventDefault();
-      
+    async function processActionFiles(input) {
+      const box = document.getElementById('m-preview-box');
+      box.innerHTML = ''; actionBase64 = [];
+      for (let file of input.files) {
+        let b64 = await convertFileToBase64(file);
+        actionBase64.push(b64);
+        box.innerHTML += `<div class="h-10 border rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden"><img src="${b64}" class="object-cover w-full h-full"></div>`;
+      }
+    }
+
+    // KIRIM FORMULIR ADUAN UTAMA SECARA ASINKRONUS
+    function handleFormSubmit(e) {
+      e.preventDefault();
       const payload = {
-        nama: document.getElementById('pelapor_nama').value,
-        hp: document.getElementById('pelapor_hp').value,
-        satwa: document.getElementById('satwa_jenis').value,
-        kabupaten: document.getElementById('kabupaten_kota').value,
-        ancaman: document.getElementById('ancaman_tingkat').value,
-        jumlah: document.getElementById('satwa_jumlah').value,
-        deskripsi: document.getElementById('deskripsi_aduan').value,
-        lat: Number(document.getElementById('koordinat_lat').value),
-        lng: Number(document.getElementById('koordinat_lng').value),
-        bukti: appState.uploadedFilesBase64
+        nama: document.getElementById('p_nama').value,
+        hp: document.getElementById('p_hp').value,
+        satwa: document.getElementById('s_jenis').value,
+        kabupaten: document.getElementById('s_kota').value,
+        ancaman: document.getElementById('s_ancaman').value,
+        jumlah: document.getElementById('s_jumlah').value,
+        deskripsi: document.getElementById('s_deskripsi').value,
+        lat: Number(document.getElementById('c_lat').value),
+        lng: Number(document.getElementById('c_lng').value),
+        bukti: uploadedBase64
       };
 
-      try {
-        const response = await callBackend("create", { payload: payload });
-        if (response && response.success) {
-          showToast(`Laporan berhasil terkirim! ID Tiket Anda: ${response.data.id}`, "success");
-          document.getElementById('form-laporan').reset();
-          document.getElementById('media-preview-container').innerHTML = '';
-          document.getElementById('upload-text').innerText = "Klik untuk pilih gambar atau video bukti lapangan";
-          appState.uploadedFilesBase64 = [];
-          
-          // Sinkronisasi data ulang
-          await fetchDataFromBackend();
-          
-          // Alihkan tab pelacakan status
-          switchTab('status');
-          document.getElementById('status-search-input').value = response.data.id;
-          searchAduan();
-        } else {
-          showToast("Gagal menyimpan laporan. Mohon coba kembali.", "error");
-        }
-      } catch (err) {
-        showToast("Error saat menghubungi server.", "error");
+      showToast("Sedang memproses pengiriman aduan...", "info");
+      
+      if (typeof google !== 'undefined') {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            showToast(`Sukses! Laporan disimpan dengan nomor tiket: ${res.id}`, "success");
+            document.getElementById('form-laporan').reset();
+            document.getElementById('preview-box').innerHTML = '';
+            uploadedBase64 = [];
+            syncDataWithBackend();
+            switchTab('status');
+          })
+          .withFailureHandler(function(err) {
+            showToast("Ggal menyimpan: " + err.message, "error");
+          })
+          .createData(payload);
       }
     }
 
-    // Render Tab Pantau Status Aduan
-    function renderStatusAduan() {
-      const container = document.getElementById('status-aduan-list');
+    // FORMAT TANGGAL YANG DISESUAIKAN (SANGAT COCOK UNTUK INDONESIA)
+    function formatBeautifulDate(str) {
+      if(!str) return "-";
+      return str.toString().replace("T", " ") + " WITA";
+    }
+
+    // RENDER KARTU PUBLIK UNTUK PANTAU STATUS
+    function renderStatusCards() {
+      const container = document.getElementById('status-card-container');
       container.innerHTML = '';
-
-      if (appState.aduanData.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full text-center py-12 text-slate-400">
-            <i class="fa-solid fa-folder-open text-4xl mb-2"></i>
-            <p>Belum ada data aduan satwa liar.</p>
-          </div>
-        `;
+      
+      if(globalData.length === 0) {
+        container.innerHTML = `<p class="text-center col-span-full py-8 text-slate-400">Belum ada aduan masuk.</p>`;
         return;
       }
 
-      appState.aduanData.forEach(item => {
-        let badgeColor = "bg-amber-100 text-amber-800 border-amber-200";
-        if (item.status === "Proses") badgeColor = "bg-blue-100 text-blue-800 border-blue-200";
-        if (item.status === "Selesai") badgeColor = "bg-emerald-100 text-emerald-800 border-emerald-200";
-
-        // Tampilkan foto bukti jika ada
-        let mediaHtml = '';
-        if (item.bukti && item.bukti.length > 0 && item.bukti[0] !== "") {
-          mediaHtml = `
-            <div class="relative h-44 rounded-t-xl overflow-hidden bg-slate-100">
-              <img src="${item.bukti[0]}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x200/2a6a64/ffffff?text=Bukti+Aduan'">
-              <span class="absolute top-3 right-3 text-xs bg-slate-900/80 text-white font-bold px-2 py-1 rounded-md">
-                ${item.bukti.length} Bukti
-              </span>
-            </div>
-          `;
-        } else {
-          mediaHtml = `
-            <div class="h-44 rounded-t-xl bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-400">
-              <i class="fa-solid fa-image text-3xl mb-1"></i>
-              <span class="text-xs">Tidak ada lampiran berkas</span>
-            </div>
-          `;
-        }
-
-        // Tampilkan tanggapan jika diproses/selesai
-        let tanggapanHtml = '';
-        if (item.tanggapan) {
-          tanggapanHtml = `
-            <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
-              <strong class="text-xs uppercase text-slate-500 block">Tanggapan Petugas:</strong>
-              <p class="text-xs text-slate-700 italic leading-relaxed">"${item.tanggapan}"</p>
-            </div>
-          `;
-        }
-
-        const div = document.createElement('div');
-        div.className = "bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between overflow-hidden aduan-card";
-        div.setAttribute('data-search', `${item.id} ${item.nama} ${item.satwa}`);
-        div.innerHTML = `
-          <div>
-            ${mediaHtml}
-            <div class="p-5 space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs font-bold text-emerald-800">${item.id}</span>
-                <span class="px-2.5 py-1 text-xs font-bold border rounded-full ${badgeColor}">${item.status}</span>
-              </div>
-              <h3 class="font-extrabold text-slate-950 text-base leading-tight">${item.satwa} (${item.jumlah} Ekor)</h3>
-              <p class="text-xs text-slate-500 leading-relaxed max-w-full truncate-3-lines">${item.deskripsi}</p>
-              
-              <div class="text-[11px] text-slate-400 pt-2 border-t border-slate-50 flex items-center gap-1.5">
-                <i class="fa-solid fa-calendar"></i>
-                <span>${formatIndonesianDate(item.tanggal)}</span>
-              </div>
-
-              ${tanggapanHtml}
-            </div>
-          </div>
-          <div class="p-5 pt-0 bg-slate-50/50 rounded-b-2xl border-t border-slate-50">
-            <span class="text-[10px] text-slate-400 block mb-0.5">Lokasi Pengaduan:</span>
-            <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-location-dot text-emerald-700 mr-1"></i>${item.kabupaten}</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    // Fungsi Pencarian Aduan
-    function searchAduan() {
-      const q = document.getElementById('status-search-input').value.toLowerCase();
-      const cards = document.querySelectorAll('.aduan-card');
-      cards.forEach(card => {
-        const text = card.getAttribute('data-search').toLowerCase();
-        if (text.includes(q)) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-    }
-
-    // Portal Keamanan Petugas: Login
-    async function handleLoginSubmit(event) {
-      event.preventDefault();
-      const u = document.getElementById('login_username').value;
-      const p = document.getElementById('login_password').value;
-
-      try {
-        const response = await callBackend("login", { username: u, password: p });
-        if (response && response.success && response.data) {
-          appState.currentUser = response.data;
-          localStorage.setItem('silaras_user', JSON.stringify(appState.currentUser));
-          document.getElementById('admin-name').innerText = appState.currentUser.fullName;
-          
-          document.getElementById('petugas-login-container').classList.add('hidden');
-          document.getElementById('petugas-dashboard-container').classList.remove('hidden');
-          
-          showToast("Berhasil masuk ke portal admin!", "success");
-          fetchDataFromBackend();
-        } else {
-          showToast("Kombinasi Username dan Password salah.", "error");
-        }
-      } catch (err) {
-        showToast("Error saat validasi login.", "error");
-      }
-    }
-
-    // Portal Keamanan Petugas: Keluar
-    function handleLogout() {
-      appState.currentUser = null;
-      localStorage.removeItem('silaras_user');
-      document.getElementById('petugas-login-container').classList.remove('hidden');
-      document.getElementById('petugas-dashboard-container').classList.add('hidden');
-      showToast("Berhasil keluar portal.", "info");
-    }
-
-    // Update Angka Statistik Admin Dashboard
-    function updateDashboardStats() {
-      const total = appState.aduanData.length;
-      const masuk = appState.aduanData.filter(i => i.status === "Masuk").length;
-      const proses = appState.aduanData.filter(i => i.status === "Proses").length;
-      const selesai = appState.aduanData.filter(i => i.status === "Selesai").length;
-
-      document.getElementById('stat-total').innerText = total;
-      document.getElementById('stat-masuk').innerText = masuk;
-      document.getElementById('stat-proses').innerText = proses;
-      document.getElementById('stat-selesai').innerText = selesai;
-    }
-
-    // Render Tabel Respons Pengaduan Petugas
-    function renderPetugasTable() {
-      const tbody = document.getElementById('petugas-table-body');
-      tbody.innerHTML = '';
-
-      if (appState.aduanData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Belum ada aduan terdaftar.</td></tr>`;
-        return;
-      }
-
-      appState.aduanData.forEach(item => {
-        let badgeColor = "bg-amber-100 text-amber-800 border-amber-200";
-        if (item.status === "Proses") badgeColor = "bg-blue-100 text-blue-800 border-blue-200";
-        if (item.status === "Selesai") badgeColor = "bg-emerald-100 text-emerald-800 border-emerald-200";
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition-colors border-b border-slate-100";
-        tr.innerHTML = `
-          <td class="py-4 px-4 font-mono font-bold text-xs text-emerald-800">${item.id}</td>
-          <td class="py-4 px-4 text-xs whitespace-nowrap text-slate-500">${formatIndonesianDate(item.tanggal)}</td>
-          <td class="py-4 px-4">
-            <span class="block font-bold text-slate-900">${item.nama}</span>
-            <span class="block text-xs text-slate-400">${item.hp}</span>
-          </td>
-          <td class="py-4 px-4">
-            <span class="block font-bold text-slate-900">${item.satwa}</span>
-            <span class="block text-xs text-slate-500"><i class="fa-solid fa-map-marker-alt text-emerald-700 mr-1"></i>${item.kabupaten}</span>
-          </td>
-          <td class="py-4 px-4">
-            <span class="block text-xs text-slate-600 font-semibold">${item.ancaman}</span>
-            <span class="block text-xs text-slate-400">${item.jumlah} Ekor</span>
-          </td>
-          <td class="py-4 px-4 whitespace-nowrap">
-            <span class="px-2.5 py-1 text-xs font-bold border rounded-full ${badgeColor}">${item.status}</span>
-          </td>
-          <td class="py-4 px-4 text-center whitespace-nowrap">
-            <button onclick="openActionModal('${item.id}', '${item.status}', '${item.tanggapan}')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 mx-auto transition-all shadow-sm">
-              <i class="fa-solid fa-edit"></i> Respons
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    // NOTIFIKASI SYSTEM DENGAN BADGE MERAH
-    function renderNotificationSystem() {
-      const incomingAduan = appState.aduanData.filter(i => i.status === "Masuk");
-      const badge = document.getElementById('notif-badge');
-      const countLabel = document.getElementById('notif-count');
-      const notifList = document.getElementById('notif-list');
-
-      notifList.innerHTML = '';
-
-      if (incomingAduan.length > 0) {
-        badge.classList.remove('hidden');
-        countLabel.innerText = `${incomingAduan.length} Baru`;
-        countLabel.className = "text-[10px] font-bold text-white bg-red-500 px-2.5 py-0.5 rounded-full";
-
-        incomingAduan.forEach(item => {
-          const div = document.createElement('div');
-          div.className = "p-4 hover:bg-emerald-50/50 transition-colors flex flex-col gap-2";
-          div.innerHTML = `
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold text-emerald-800">${item.id}</span>
-              <span class="text-[10px] text-slate-400">${formatIndonesianDate(item.tanggal)}</span>
-            </div>
+      globalData.forEach(item => {
+        let badge = item.status === 'Masuk' ? 'bg-amber-100 text-amber-700' : (item.status === 'Proses' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700');
+        let img = item.bukti.length > 0 ? item.bukti[0] : 'https://placehold.co/400x200/2a6a64/ffffff?text=SILARAS+MEDIA';
+        
+        container.innerHTML += `
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden text-xs flex flex-col justify-between card-item" data-search="${item.id} ${item.satwa}">
             <div>
-              <p class="text-xs text-slate-800 font-semibold leading-tight">Laporan Baru: <span class="text-emerald-700">${item.satwa}</span> oleh ${item.nama}</p>
-              <p class="text-[11px] text-slate-500 mt-1 truncate">${item.deskripsi}</p>
+              <div class="h-32 bg-slate-100 relative"><img src="${img}" class="w-full h-full object-cover"></div>
+              <div class="p-4 space-y-2">
+                <div class="flex justify-between items-center"><span class="font-mono font-bold text-emerald-700">${item.id}</span><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badge}">${item.status}</span></div>
+                <h4 class="font-black text-sm text-slate-900 dark:text-white">${item.satwa} (${item.jumlah} Ekor)</h4>
+                <p class="text-slate-500 line-clamp-2">${item.deskripsi}</p>
+                ${item.tanggapan ? `<div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg italic text-slate-600 dark:text-slate-300">" ${item.tanggapan} "</div>` : ''}
+              </div>
             </div>
-            <div class="flex justify-end pt-1">
-              <button onclick="respondDirectlyFromNotif('${item.id}', '${item.status}', '${item.tanggapan}')" class="text-[10px] font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 bg-white border border-emerald-200 px-2 py-1 rounded-md shadow-sm">
-                <i class="fa-solid fa-bolt"></i> Tindak Lanjuti
-              </button>
+            <div class="p-4 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-50 dark:border-slate-800 text-[10px] text-slate-400 flex justify-between">
+              <span><i class="fa-solid fa-map-marker-alt text-emerald-700 mr-1"></i>${item.kabupaten}</span>
+              <span>${formatBeautifulDate(item.tanggal)}</span>
             </div>
-          `;
-          notifList.appendChild(div);
-        });
-      } else {
-        badge.classList.add('hidden');
-        countLabel.innerText = "0 Baru";
-        countLabel.className = "text-[10px] font-bold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full";
-        notifList.innerHTML = `
-          <div class="p-4 text-center text-slate-400 text-xs py-8">
-            <i class="fa-solid fa-bell-slash text-xl mb-1 block"></i>
-            Tidak ada aduan baru yang perlu diproses.
           </div>
         `;
-      }
-    }
-
-    function toggleNotificationDropdown() {
-      const dropdown = document.getElementById('notification-dropdown');
-      dropdown.classList.toggle('hidden');
-    }
-
-    function respondDirectlyFromNotif(id, status, tanggapan) {
-      document.getElementById('notification-dropdown').classList.add('hidden');
-      switchTab('petugas');
-      
-      // Jika admin belum masuk, beritahu untuk masuk portal terlebih dahulu
-      if (!appState.currentUser) {
-        showToast("Mohon masuk ke Portal Petugas terlebih dahulu.", "info");
-        return;
-      }
-
-      openActionModal(id, status, tanggapan);
-    }
-
-    // Modal Tindak Lanjut
-    function openActionModal(id, status, tanggapan) {
-      document.getElementById('action-ticket-id').value = id;
-      document.getElementById('action-ticket-display').value = id;
-      document.getElementById('action-status').value = status === "Masuk" ? "Proses" : status;
-      document.getElementById('action-tanggapan').value = tanggapan === "null" ? "" : tanggapan;
-      
-      document.getElementById('action-media').value = '';
-      document.getElementById('action-preview-container').innerHTML = '';
-      appState.actionFilesBase64 = [];
-
-      document.getElementById('action-modal').classList.remove('hidden');
-    }
-
-    function closeActionModal() {
-      document.getElementById('action-modal').classList.add('hidden');
-    }
-
-    // Preview File Unggahan Petugas
-    async function previewActionFiles(input) {
-      const container = document.getElementById('action-preview-container');
-      container.innerHTML = '';
-      appState.actionFilesBase64 = [];
-
-      const files = input.files;
-      for (let file of files) {
-        try {
-          const base64 = await readFileAsBase64(file);
-          appState.actionFilesBase64.push(base64);
-
-          const div = document.createElement('div');
-          div.className = "relative rounded-lg overflow-hidden border border-slate-200 h-14 bg-slate-50 flex items-center justify-center";
-          if (file.type.startsWith('image/')) {
-            div.innerHTML = `<img src="${base64}" class="w-full h-full object-cover">`;
-          } else {
-            div.innerHTML = `<i class="fa-solid fa-video text-slate-400"></i>`;
-          }
-          container.appendChild(div);
-        } catch (e) {
-          console.error("Gagal membaca berkas penanganan:", e);
-        }
-      }
-    }
-
-    // Kirim Tindak Lanjut Petugas ke Server
-    async function handleActionSubmit(event) {
-      event.preventDefault();
-      const id = document.getElementById('action-ticket-id').value;
-      const status = document.getElementById('action-status').value;
-      const tanggapan = document.getElementById('action-tanggapan').value;
-      
-      try {
-        const response = await callBackend("update", {
-          id: id,
-          status: status,
-          tanggapan: tanggapan,
-          petugasProofs: appState.actionFilesBase64
-        });
-
-        if (response && response.success) {
-          showToast(`Tindakan respons tiket ${id} berhasil diperbarui!`, "success");
-          closeActionModal();
-          await fetchDataFromBackend();
-        } else {
-          showToast("Gagal menyimpan respons tindakan.", "error");
-        }
-      } catch (err) {
-        showToast("Error menghubungi server backend.", "error");
-      }
-    }
-
-    // Ekspor Data Laporan ke Excel (Format CSV dengan Kepatuhan Format)
-    function exportToExcel() {
-      if (appState.aduanData.length === 0) {
-        showToast("Belum ada data untuk diekspor.", "error");
-        return;
-      }
-
-      let csvContent = "data:text/csv;charset=utf-8,";
-      csvContent += "ID Tiket,Tanggal,Nama Pelapor,No HP,Jenis Satwa,Deskripsi,Latitude,Longitude,Status,Tanggapan\r\n";
-      
-      appState.aduanData.forEach(item => {
-        const row = [
-          item.id,
-          item.tanggal,
-          `"${item.nama.replace(/"/g, '""')}"`,
-          `"${item.hp}"`, // dipaksa sebagai string agar angka 0 tidak terhapus di Excel
-          item.satwa,
-          `"${(item.deskripsi || '').replace(/\"/g, '""')}"`,
-          item.lat,
-          item.lng,
-          item.status,
-          `"${(item.tanggapan || '').replace(/\"/g, '""')}"`
-        ].join(",");
-        csvContent += row + "\r\n";
       });
-
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `Data_Konflik_Satwa_BKSDA_Kaltim_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast("Data berhasil diekspor ke Excel (CSV)!", "success");
     }
 
-    // Toast Alert System
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      const msgSpan = document.getElementById('toast-msg');
-      const iconSpan = document.getElementById('toast-icon');
-
-      msgSpan.innerText = message;
-
-      let bgColor = "bg-slate-800";
-      let icon = '<i class="fa-solid fa-info-circle"></i>';
-
-      if (type === 'success') {
-        bgColor = "bg-emerald-700";
-        icon = '<i class="fa-solid fa-circle-check"></i>';
-      } else if (type === 'error') {
-        bgColor = "bg-red-600";
-        icon = '<i class="fa-solid fa-circle-exclamation"></i>';
-      } else if (type === 'info') {
-        bgColor = "bg-blue-600";
-        icon = '<i class="fa-solid fa-circle-info"></i>';
-      }
-
-      toast.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl z-50 flex items-center gap-2 transform transition-all duration-300 ${bgColor}`;
-      iconSpan.innerHTML = icon;
-
-      toast.classList.remove('hidden');
-
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 4000);
+    function filterStatusCards() {
+      let q = document.getElementById('search-box').value.toLowerCase();
+      document.querySelectorAll('.card-item').forEach(card => {
+        let txt = card.getAttribute('data-search').toLowerCase();
+        card.style.display = txt.includes(q) ? 'flex' : 'none';
+      });
     }
 
-    // Mock Response Offline (Fallback Pengaman)
-    function generateMockResponse(action, payload) {
-      if (action === "read") {
-        return {
-          success: true,
-          data: [
-            {
-              id: "TRK-2026-001",
-              tanggal: "2026-07-01 10:30",
-              nama: "Budi Santoso",
-              hp: "08123456789",
-              satwa: "Buaya",
-              kabupaten: "Samarinda",
-              ancaman: "Tinggi (Membahayakan Jiwa)",
-              jumlah: 1,
-              deskripsi: "Ditemukan buaya muara berukuran 3 meter berenang di selokan dekat perumahan warga.",
-              lat: -0.5015,
-              lng: 117.1265,
-              bukti: [],
-              status: "Masuk",
-              tanggapan: "",
-              petugasBukti: []
+    // SISTEM LOGIN KEAMANAN PORTAL ADMIN
+    function handleLogin(e) {
+      e.preventDefault();
+      let u = document.getElementById('u_name').value;
+      let p = document.getElementById('u_pass').value;
+      
+      if(typeof google !== 'undefined') {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if(res) {
+              document.getElementById('login-panel').classList.add('hidden');
+              document.getElementById('dashboard-panel').classList.remove('hidden');
+              document.getElementById('user-display').innerText = res.fullName;
+              showToast("Selamat datang di Portal Utama.", "success");
+            } else {
+              showToast("Identitas login admin salah.", "error");
             }
-          ]
-        };
+          })
+          .login(u, p);
       }
-      return { success: true, data: { id: "TRK-2026-MOCK" } };
+    }
+
+    function handleLogout() {
+      document.getElementById('login-panel').classList.remove('hidden');
+      document.getElementById('dashboard-panel').classList.add('hidden');
+    }
+
+    function renderPetugasTable() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      globalData.forEach(item => {
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
+            <td class="p-3 font-mono font-bold text-emerald-800">${item.id}</td>
+            <td class="p-3 text-slate-400 text-[11px]">${formatBeautifulDate(item.tanggal)}</td>
+            <td class="p-3"><strong class="block">${item.nama}</strong><span class="text-slate-400">${item.hp}</span></td>
+            <td class="p-3"><strong>${item.satwa}</strong> <span class="text-slate-400">@ ${item.kabupaten}</span></td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] bg-slate-100">${item.status}</span></td>
+            <td class="p-3 text-center">
+              <button onclick="openResponsModal('${item.id}','${item.status}','${item.tanggapan}')" class="bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-md"><i class="fa-solid fa-pen-to-square"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openResponsModal(id, status, tanggapan) {
+      document.getElementById('m_id').value = id;
+      document.getElementById('m_status').value = status === 'Masuk' ? 'Proses' : status;
+      document.getElementById('m_tanggapan').value = tanggapan === 'null' ? '' : tanggapan;
+      document.getElementById('m-preview-box').innerHTML = '';
+      actionBase64 = [];
+      document.getElementById('modal-respons').classList.remove('hidden');
+    }
+
+    function closeResponsModal() { document.getElementById('modal-respons').classList.add('hidden'); }
+
+    function handleResponsSubmit(e) {
+      e.preventDefault();
+      let id = document.getElementById('m_id').value;
+      let status = document.getElementById('m_status').value;
+      let tanggapan = document.getElementById('m_tanggapan').value;
+
+      showToast("Mengunggah respons tindakan ke subfolder Drive...", "info");
+
+      if (typeof google !== 'undefined') {
+        google.script.run
+          .withSuccessHandler(function() {
+            showToast("Aduan berhasil ditindaklanjuti!", "success");
+            closeResponsModal();
+            syncDataWithBackend();
+          })
+          .updateData(id, status, tanggapan, actionBase64);
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-2xl z-50 transform transition-all duration-300 ${type === 'success' ? 'bg-emerald-700' : (type === 'error' ? 'bg-red-600' : 'bg-slate-900')}`;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 4000);
     }
   </script>
 </body>
